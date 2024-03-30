@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux"
 import ProfileImageBox from "../Components/ProfileImage"
 import { useForm } from "react-hook-form"
 import { saveUser } from "../Store/activeUser"
+import Academics from "../Components/Academics"
+import JobTile from "../Components/JobTile"
 
 
 const ProfilePage = () => {
@@ -11,20 +13,25 @@ const ProfilePage = () => {
     const darkTheme = useSelector((state) => state.theme)
     const user = useSelector((state) => state.activeUser.user)
     const dispatch = useDispatch()
+    const [border, setBorder] = useState('none')
     const initialUserData = user
     const [isReadOnly, setIsReadOnly] = useState(true);
     const { register, handleSubmit, errors } = useForm({ defaultValues: initialUserData });
+
     const updateUserInfo = (data) => {
         console.log(data)
         dispatch(saveUser(data))
-        setIsReadOnly(true)
+
+    }
+    const handleEdit = () => {
+        setIsReadOnly(prevState => !prevState)
+        setBorder('gray-600')
     }
     useEffect(() => {
         console.log(user)
-         
     }, [user])
 
-     
+
 
     return (
         <div class={`${theme} ms-10 border-b items-center justify-between h-screen`}>
@@ -53,25 +60,41 @@ const ProfilePage = () => {
                                         Save
                                     </button>
                                 ) : (
-                                    <button onClick={() => setIsReadOnly(prevState => !prevState)} className="rounded-lg text-gray-950 shadow-md bg-gray-100 m-4 p-2 w-20">
+                                    <button onClick={() => handleEdit()} className="rounded-lg text-gray-950 shadow-md bg-gray-100 m-4 p-2 w-20">
                                         Edit Bio
                                     </button>
                                 )}
 
 
                             </div>
-                            <div className="container-flex w-100 m-1 ">
-                                <div className="flex border-b border-gray-200 rounded items-center justify-between ">
+                            <div className="container-flex w-100 m-4 ">
+                                <div className="flex  rounded items-center justify-between ">
                                     <div className="container-flex h-100 items-center justify-end " >
-                                        <input type="text" className={`${darkTheme.inputtext} text-sm rounded-lg border border-none  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly} {...register('name')} name="name" id="username-input" />     <br />
-                                        <input type="text" className={`${darkTheme.inputtext} text-sm rounded-lg border border-none  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('houseName')} name="HouseName" id="username-input" /> <br />
-                                        <input type="text" className={`${darkTheme.inputtext} text-sm rounded-lg border border-none  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('streetName')} name="streetNam" id="username-input" /> <br />
-                                        <input type="text" className={`${darkTheme.inputtext} text-sm rounded-lg border border-none  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('city')} name="streetNam" id="username-input" /> <br />
-                                        <input type="text" className={`${darkTheme.inputtext} text-sm rounded-lg border border-none  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('pincode')} name="pincode" id="username-input" /> <br />
+                                        <input type="text" className={`${darkTheme.inputtext} text-sm rounded-sm  border border-${border}  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly} {...register('name')} name="name" id="username-input" />     <br />
+                                        <input type="text" className={`${darkTheme.inputtext} text-sm rounded-sm  border border-${border}  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('houseName')} name="HouseName" id="username-input" /> <br />
+                                        <input type="text" className={`${darkTheme.inputtext} text-sm rounded-sm  border border-${border}  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('streetName')} name="streetNam" id="username-input" /> <br />
+                                        <input type="text" className={`${darkTheme.inputtext} text-sm rounded-sm  border border-${border}  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('city')} name="streetNam" id="username-input" /> <br />
+                                        <input type="text" className={`${darkTheme.inputtext} text-sm rounded-sm  border border-${border}  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('pincode')} name="pincode" id="username-input" /> <br />
                                     </div>
+
                                 </div>
+
+                            </div>
+
+                        </div>
+                        <div className="block ">
+                            <h5>Academic</h5>
+                            <div className="flex flex-wrap ">
+                                {user.academics.map((item) => <Academics course={item} />)}
                             </div>
                         </div>
+                        <div>
+                                <h5>Experiance </h5>
+                                <div className="flex flex-wrap ">
+                                {user.experiance.map((item) => <JobTile company={item} />)}
+                                </div>
+                        </div>
+
                     </div>
 
                 </div>

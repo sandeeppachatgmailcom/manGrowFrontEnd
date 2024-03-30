@@ -5,7 +5,7 @@ const themeSlice = createSlice({
     initialState: {
         Themedark: false,
         lightTheme: ' bg-white-100 text-gray-500',
-        darkTheme: ' bg-gray-800 text-gray-200  ',
+        darkTheme: ' bg-gray-800 text-slate-50  ',
         theme: '',
         buttontheme:'bg-gray-800 text-white',
         border: 'border-stone-950 ',
@@ -16,7 +16,7 @@ const themeSlice = createSlice({
             state.Themedark = !state.Themedark;  
             state.theme = state.Themedark ? state.darkTheme : state.lightTheme;  
             state.border=state.Themedark ? ' border-stone-950 ': ' border-stone-600 ';
-            state.inputtext = state.Themedark ?' bg-gray-800 text-white-100 ':' bg-white-800 text-white-800 '
+            state.inputtext = state.Themedark ?' bg-gray-800 text-slate-50 ':' bg-white-800 text-white-800 '
         }
     }
 });
