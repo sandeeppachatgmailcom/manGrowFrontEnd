@@ -4,6 +4,7 @@ import SignupPage from "../Components/SignupPage";
 import Login from "../Components/LoginWindow";
 import HomePage from "../Pages/HomePage";
 import MyAccount from "../Pages/MyAccount";
+import ProfilePage from "../Pages/ProfilePage";
 
 
 const appRouter = createBrowserRouter([
@@ -25,7 +26,8 @@ const appRouter = createBrowserRouter([
             },
             {
                 path:'/profile',
-                element:<MyAccount/>
+                element:<ProfilePage/>
+                
             }
         ]
     }

@@ -38,20 +38,33 @@ function Header() {
 
 
   return (
-    <div style={{height:'100%'}}  className={`${theme}container-flex flex border-b  items-center justify-between`}>
-      <div style={{ height: '20%' }} className={`${theme} flex  items-center justify-start`}>
-        <h6 className={`${theme}` + ' text-2xl text-blue-500 font-semibold '} > {company }</h6>
+    <div class={`${theme} flex flex-col sm:flex-row border-b items-center justify-between shadow-lg `}>
+
+      <div class={`${theme} flex items-center justify-start py-4`}>
+        <h6 class={`${theme} float-start  sm:w-auto text-2xl text-blue-500 font-semibold m-6`}>
+          {company}
+        </h6>
       </div>
-      
-      <div style={{ height: '20%' }} className={`${theme} flex  items-center justify-end`}>
-         <ProfileImageBox height='50px' width = '50px'  />  
-        <h6 className={`${theme}`} > {Object.keys(activeUser).length ? activeUser.name + ' ' + activeUser.HouseName : ''}</h6>
-        <button className='btn' onClick={handleLogout} > <FaPowerOff /> </button>
-        <button onClick={() => toggleDarkMode()} className={`rounded-full w-10 h-10 flex items-center justify-center bg-'gray-800' ${theme.theme}  focus:outline-none`}>
-          {darkTheme ? "🌤" : "🌙"}
+
+      <div class={`${theme} flex items-center justify-end py-4`}>
+        <ProfileImageBox height='50px' width='50px' />
+        <h6 class={`${theme} px-4 `}>
+          {Object.keys(activeUser).length
+            ? activeUser.name
+            : ''}
+        </h6>
+        <button class='btn px-3 py-2 rounded-full focus:outline-none' onClick={handleLogout}>
+          <FaPowerOff />
+        </button>
+        <button
+          onClick={() => toggleDarkMode()}
+          class={`rounded-full w-10 h-10 flex items-center justify-center bg-gray-800 ${theme.theme} focus:outline-none`}
+        >
+          {darkTheme ? "🌙" : "🌤"}
         </button>
       </div>
     </div>
+
   );
 }
 

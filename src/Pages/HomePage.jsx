@@ -13,7 +13,7 @@ const HomePage = () => {
     const divlign = ' border border-gray-700 rounded  mt-1 '
 
     return (
-        <div style={{ height: '100vh' }} className={`containercontent-start mx-auto flex  ${darkTheme.theme}`}>
+        <div style={{ height: '100vh' }} className={`container content-start mx-auto flex  ${darkTheme.theme}`}>
 
             <div className={`w-1/3 ${darkTheme.theme + divlign}`}>
                 <div >

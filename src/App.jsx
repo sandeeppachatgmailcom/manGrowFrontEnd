@@ -8,18 +8,20 @@ import SignupPage from './Components/SignupPage';
 const App = () => {
   const theme = useSelector((state)=>state.theme.theme)
   return (
-    <div style={{height:'100vh'}} className={`${theme} container-flex`} >
-      <Provider store={appStore}>
-          <div  className='container-flex' style={{height:'12%'}}> 
+    <Provider store={appStore}>
+    <div className={`${theme}  flex-wrap sm:flex-wrap mx-auto md:full lg:full xl:full  `}>
+     
+          <div  className={`${theme} w-100 container-flex sm:auto mx-auto md:full lg:full xl:full`} style={{height:'12%'}}> 
               <Header />
           </div>
           
-          <div className='container-flex' style={{height:'85%'}}> 
+          <div className={`${theme} container-flex sm:flex-wrap mx-auto md:full lg:full xl:full`}   style={{height:'85%'}}> 
               <Outlet />
           </div>
           
-      </Provider>
+      
     </div>
+    </Provider>
   )
 }
 
