@@ -9,14 +9,14 @@ const App = () => {
   const theme = useSelector((state)=>state.theme.theme)
   return (
     <Provider store={appStore}>
-    <div className={`${theme}  flex-wrap sm:flex-wrap mx-auto md:full lg:full xl:full  `}>
+    <div className={`${theme} p-5 flex-wrap sm:flex-wrap mx-auto md:full lg:full xl:full max-h-sreen  `}>
      
-          <div  className={`${theme} w-100 container-flex sm:auto mx-auto md:full lg:full xl:full`} style={{height:'12%'}}> 
+          <div  className={`${theme} w-100 container-flex sm:auto mx-auto md:full lg:full xl:full`} style={{height:'15%'}}> 
               <Header />
           </div>
           
-          <div className={`${theme} container-flex sm:flex-wrap mx-auto md:full lg:full xl:full`}   style={{height:'85%'}}> 
-              <Outlet />
+          <div className={`${theme}   container-flex sm:flex-wrap  mx-auto md:full lg:full xl:full`}    > 
+              <Outlet  />
           </div>
           
       

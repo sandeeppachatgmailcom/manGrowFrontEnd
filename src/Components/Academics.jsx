@@ -13,8 +13,8 @@ const Academics = ({ course }) => {
     const handleClose = () => { setIsModalOpen(false) }
 
     return (
-        <div className= {`${theme}    xl:w-1/4 md:w-1/4 sm:w-full rounded-lg shadow-lg p-4 me-1 flex flex-col justify-between `}>
-            <div className="block">
+        <div className= {`${theme} h-[200px]     xl:w-1/4 md:w-1/4 sm:w-full rounded-lg shadow-lg p-4 me-1 flex flex-col justify-between `}>
+            <div className="block w-full">
                 <div className="block ">
                     <h5 className="text-lg font-semibold mb-2">Course: {course.Type}</h5>
                 </div>
