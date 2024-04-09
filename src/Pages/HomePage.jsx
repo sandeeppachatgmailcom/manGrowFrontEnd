@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import Profile from "../Components/profile"
 import Calendar from 'react-calendar'
-import 'react-calendar/dist/Calendar.css';
+//import 'react-calendar/dist/Calendar.css';
 import Typing from "../Components/TaskTyping";
 import AudioTask from "../Components/AudioTask";
 import ChatBox from "../Components/ChatBox"; 
@@ -17,24 +17,24 @@ const HomePage = () => {
     const divlign = '   rounded  mt-1 '
 
     return (
-        <div style={{ height: '100vh' }} className={`xl:flex md:flex lg:flex sm:block content-start mx-auto   ${darkTheme.theme}`}>
+        <div  className={`xl:flex md:flex lg:flex sm:block content-start mx-auto h-100 opacity-90 ${darkTheme.theme}`}>
 
-            <div className={`xl:w-1/6 md:w-2/6 sm:w-full  ${darkTheme.theme + divlign}`}>
+            <div className={`xl:w-1/6 md:w-2/6 sm:w-full  ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
                 <div >
                     <Profile />
                 </div>
-                <div>
+                <div className="bg-transparent ">
                       <Calendar defaultView= 'month' onChange={onChange} value={value} />  
                      
                 </div>
             </div>
-            <div className={`w-4/6 m-1  p-1 ${darkTheme.theme + divlign}`}>
+            <div className={`block h-100 xl:w-4/6 xl:m-1 xl:mt-2  sm:w-full md-w-full   ${darkTheme.theme + divlign}`}>
                 <Typing/>
                 <AudioTask/>
             </div>
-            <div className={`xl:w-1/6 md:w-2/6 sm:w-full ${darkTheme.theme + divlign}`} >
+            <div className={`xl:w-1/6 md:w-2/6 sm:w-full ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
                 <ChatBox/>
-                <SingleChat nameObj ={{name:'chandhini'}}/>
+                {/* <SingleChat nameObj ={{name:'chandhini'}}/> */}
 
             </div>
 

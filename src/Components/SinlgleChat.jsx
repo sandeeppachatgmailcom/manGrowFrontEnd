@@ -13,7 +13,7 @@ const SingleChat =({nameObj})=>{
             </div>
             <div className="flex items-center  h-[15%] shadow-lg rounded-b-lg mb-1">
                 <input className="h-[80%] rounded-full w-4/5  m-1 " type="text" name="" id="" />
-                <button className="h-full " ><FaLocationArrow /></button>
+                {/* <button className="h-full " ><FaLocationArrow /></button> */}
             </div>
         </div>
     )

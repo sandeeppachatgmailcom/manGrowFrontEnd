@@ -1,0 +1,13 @@
+/* CustomCalendar.css */
+
+.react-calendar {
+    border: none;
+    font-family: Arial, sans-serif;
+  }
+  
+  .react-calendar__month-view__days__day--weekend {
+    color: red; /* Example: Change weekend day color */
+  }
+  
+  /* Add more customizations as needed */
+  

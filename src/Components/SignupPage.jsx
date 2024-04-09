@@ -27,8 +27,8 @@ const SignupPage = () => {
   };
 
   return (
-    <div className= {` ${darkTheme.theme} min-h-screen flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8 `}>
-      <div className={` ${darkTheme.theme } max-w-md w-full space-y-8`}>
+    <div className= {` ${darkTheme.theme} min-h-screen flex items-center justify-center   py-12 px-4 sm:px-6 lg:px-8 `}>
+      <div className={` ${darkTheme.theme } max-w-md w-full space-y-8 border p-5 rounded-xl`}>
         <div>
           <h2 className={` ${darkTheme.inputtext} mt-6 text-center text-3xl  `}>Sign up</h2>
         </div>

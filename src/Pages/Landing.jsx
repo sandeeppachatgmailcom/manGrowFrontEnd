@@ -1,12 +1,9 @@
-import Login from "../Components/LoginWindow"
-
-
-
+import Login from "../Components/LoginWindow" 
 const Landing = ()=>{
     return(
-        <div>
+        <>
          <Login/>
-        </div>
+        </>
     )
 }
 
