@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Store/activeUser";
 import { Link, useNavigate } from "react-router-dom";
-
+import GAuth from "./GoogleAuthetication";
+import axios from '../api/axios'
+const login_url = '/auth'
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -11,12 +13,21 @@ function Login() {
     const dispatch = useDispatch()
     const activeUser =  useSelector((state)=>state.activeUser)  
     const navigate = useNavigate()
-    const handleLogin = (e) => {
-      e.preventDefault();
-      // Handle login logic here
-      console.log('Logging in with:', email, password);
-      dispatch(login()) 
-      
+    const handleLogin = async (e) => {
+      try {
+        e.preventDefault();
+        const responce = await axios.post(login_url,JSON.stringify({email,password}),{headers:{'Content-Type':'application/json'},withCredentials:true}  ) 
+        
+        console.log(responce.data)
+
+        dispatch(login()) 
+        
+      } catch (error) {
+        if(!error?.responce){
+          console.log('no error message')
+        }
+        
+      }
     };
 useEffect(()=>{
 if(Object.keys(activeUser.user).length) navigate('/')
@@ -24,9 +35,11 @@ if(Object.keys(activeUser.user).length) navigate('/')
 
   
     return (
-      <div className={`  ${classDarkTheme + darkMode.border} flex justify-center items-center h-screen`}>
-        <div className={`  ${classDarkTheme} w-96 p-8 bg-white rounded-lg shadow-md`}>
+      <div className={`  ${classDarkTheme + ' ' +darkMode.inputtext  } flex   justify-center items-center h-screen`}>
+        <div className={`  ${classDarkTheme  } border  w-96 p-8  rounded-lg shadow-md`}>
           <h2 className={`  ${classDarkTheme} text-2xl font-semibold mb-4`}>Login</h2>
+          <h6 className={`  ${classDarkTheme} text-small  mb-4`}>'Error'  </h6>
+          
           <form onSubmit={handleLogin}>
             <div className="mb-4">
               <label htmlFor="email" className={`  ${classDarkTheme} block `}>Email</label>
@@ -51,6 +64,9 @@ if(Object.keys(activeUser.user).length) navigate('/')
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
+            </div>
+            <div>
+                  <GAuth/>
             </div>
             <button
               type="submit"

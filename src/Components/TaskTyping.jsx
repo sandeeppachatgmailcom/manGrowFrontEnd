@@ -5,7 +5,7 @@ import { MdDelete } from "react-icons/md";
 const Typing = ()=>{
     const theme = useSelector((state)=>state.theme)
     return(
-        <div className="w-full p-4 shadow-md h-[auto]" >
+        <div className="w-100 p-4 shadow-md h-[auto] border border-gray-300 border-opacity-45  rounded-xl " >
             <div className="justify-end text-end">
                     <h5>Date :01/04/2023 </h5>
                     <h5>Deadline:02/04/2023</h5>

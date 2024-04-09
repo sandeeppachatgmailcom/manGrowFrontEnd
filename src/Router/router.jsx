@@ -27,10 +27,8 @@ const appRouter = createBrowserRouter([
             {
                 path:'/profile',
                 element:<ProfilePage/>
-                
             }
         ]
     }
 ])
-
 export default appRouter
