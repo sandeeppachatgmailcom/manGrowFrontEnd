@@ -1,4 +1,4 @@
 import axios from 'axios'
-export default axios.create({
-    baseURL:'http://localhost:3500'
-})  
+
+const axiosApi = axios.create({baseURL:'http://localhost:4000',withCredentials:true})
+export default axiosApi

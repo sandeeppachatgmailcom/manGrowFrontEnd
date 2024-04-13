@@ -11,7 +11,6 @@ const GAuth = () => {
                     console.log(credentialResponse);
                     const decoded = jwtDecode(credentialResponse.credential);
                     console.log(decoded)
-
                 }}
                 onError={() => {
                     console.log('Login Failed');

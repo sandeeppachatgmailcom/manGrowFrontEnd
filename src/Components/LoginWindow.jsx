@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Store/activeUser";
 import { Link, useNavigate } from "react-router-dom";
 import GAuth from "./GoogleAuthetication";
-import axios from '../api/axios'
-const login_url = '/auth'
+// import axios from '../api/axios'
+const login_url = '/create'
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -16,7 +16,7 @@ function Login() {
     const handleLogin = async (e) => {
       try {
         e.preventDefault();
-        const responce = await axios.post(login_url,JSON.stringify({email,password}),{headers:{'Content-Type':'application/json'},withCredentials:true}  ) 
+        // const responce = await axios.post(login_url,JSON.stringify({email,password}),{headers:{'Content-Type':'application/json'},withCredentials:true}  ) 
         
         console.log(responce.data)
 
