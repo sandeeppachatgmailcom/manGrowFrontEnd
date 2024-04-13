@@ -38,7 +38,7 @@ function Header() {
 
 
   return (
-    <div class={`${theme} flex flex-col sm:flex-row rounded-xl border border-gray-300 border-opacity-45   mt-2   items-center justify-between shadow-lg `}>
+    <div class={`${theme} flex flex-col sm:flex-row rounded-xl border xl:w-full   border-gray-300 border-opacity-45   mt-2   items-center justify-between shadow-lg `}>
 
       <div class={`${theme} flex items-center justify-start p-4`}>
         <h6 class={`${theme} float-start  sm:w-auto text-2xl text-blue-500 font-semibold m-6`}>

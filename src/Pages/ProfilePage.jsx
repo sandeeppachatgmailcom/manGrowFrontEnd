@@ -36,7 +36,7 @@ const ProfilePage = () => {
     const [button,setButton] = useState(0)
 
     return (
-        <div className="xl:flex sm-block w-100 xl: w-full">
+        <div className="xl:flex   sm-block w-100 xl: w-full">
             <div class="xl:block sm:w-full xl:w-1/6 justify-start items-start p-2 border border-gray-300 border-opacity-45 rounded-xl mt-2">
                 <button type="button" onClick={()=>{setButton(0)}} className={button==0? `text-blue-600 font-semiboldbold text-start p-3 m-1  bg-blue-200 w-full h-[50px] rounded-r-full `: ` font-semiboldbold text-start p-3 m-1   w-full h-[50px] rounded-r-full `} >Profile</button>
                 <button type="button" onClick={()=>{setButton(1)}} className={button==1? `text-blue-600 font-semiboldbold text-start p-3 m-1  bg-blue-200 w-full h-[50px] rounded-r-full `: ` font-semiboldbold text-start p-3 m-1   w-full h-[50px] rounded-r-full `} >Home </button>

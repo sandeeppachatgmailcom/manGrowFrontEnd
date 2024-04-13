@@ -12,16 +12,15 @@ const App = () => {
     <GoogleOAuthProvider clientId="150250688028-3q3h69aphbc5q7i82f4n6if7or9d3c2d.apps.googleusercontent.com"> 
 
       <Provider store={appStore}>
-        <div className={`${theme} p-5 flex flex-col mx-auto md:full lg:full xl:full  `}>
+        <div className={`${theme}  flex flex-col mx-auto md:full lg:full xl:full  `}>
 
-          <div className={`${theme} w-full sm:auto mx-auto md:full lg:full xl:full`} style={{ height: '15%' }}>
-            <Header />
+          <div className={`${theme} w-full fixed top-0 left-0 z-10 bg-white sm:auto mx-auto md:full lg:full xl:full`} >
+              <Header/>
           </div>
 
-          <div className={`${theme} w-full  flex-grow mx-auto md:full lg:full xl:full`}   >
-            <Outlet />
+          <div className={`${theme}  w-full relative    mt-40 flex-grow mx-auto md:full lg:full xl:full`}   >
+              <Outlet/>
           </div>
-
 
         </div>
       </Provider>

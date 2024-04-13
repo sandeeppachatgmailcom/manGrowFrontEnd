@@ -5,6 +5,8 @@ import GAuth from './GoogleAuthetication';
 import { BsEyeFill } from "react-icons/bs";
 import { BiSolidHide } from "react-icons/bi";
 import axiosApi from '../api/axios';
+import { userApi } from '../api/api';
+
 
 
 
@@ -22,13 +24,13 @@ const SignupPage = () => {
     type:''
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    };
 
   
 
@@ -64,14 +66,15 @@ const validatePassword = (password) => {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    const result = await axio0sApi.post('/create',formData)
+    console.log(formData);
+    const result = await axiosApi.post(userApi.signUp,formData)
     .then(response => {
       console.log('Response:', response.data);
     })
     .catch(error => {
       console.error('Error:', error);
     });
-    console.log(formData);
+   
     console.log(result,'responce')
   }
   

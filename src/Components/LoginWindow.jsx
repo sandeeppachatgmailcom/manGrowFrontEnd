@@ -2,26 +2,42 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Store/activeUser";
 import { Link, useNavigate } from "react-router-dom";
-import GAuth from "./GoogleAuthetication";
-// import axios from '../api/axios'
+import GAuthsignin from "./googleAuthSignin";
+
+import { userApi } from "../api/api";
+import axiosApi from "../api/axios"; 
 const login_url = '/create'
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [formData, setFormData] = useState({
+      name:'',
+      email:'',
+      password:'',
+      type:'',
+      googleAuth:true
+    })
+
     const classDarkTheme = useSelector((state)=>state.theme.theme)
     const darkMode =  useSelector((state)=>state.theme)
     const dispatch = useDispatch()
     const activeUser =  useSelector((state)=>state.activeUser)  
     const navigate = useNavigate()
+    
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    };
+    
+    
+    
     const handleLogin = async (e) => {
       try {
         e.preventDefault();
-        // const responce = await axios.post(login_url,JSON.stringify({email,password}),{headers:{'Content-Type':'application/json'},withCredentials:true}  ) 
-        
-        console.log(responce.data)
-
+        const responce = await axiosApi.post('/login',formData ) 
+        console.log(responce,'response')
         dispatch(login()) 
-        
       } catch (error) {
         if(!error?.responce){
           console.log('no error message')
@@ -48,8 +64,8 @@ if(Object.keys(activeUser.user).length) navigate('/')
                 id="email"
                 className={`${darkMode.inputtext} w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500`}
                 placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email} name="email"
+                onChange={(e) => handleChange(e)}
                 required
               />
             </div>
@@ -58,15 +74,18 @@ if(Object.keys(activeUser.user).length) navigate('/')
               <input
                 type="password"
                 id="password"
+                name="password"
                 className={`${darkMode.inputtext} w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500`} 
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={(e) => handleChange(e)}
                 required
               />
             </div>
+            <br />
+             <h1 className='w-full text-center '> or </h1>
             <div>
-                  <GAuth/>
+                  <GAuthsignin/>
             </div>
             <button
               type="submit"
