@@ -23,46 +23,52 @@ function Header() {
 
   }
 
+  function deleteCookie(cookieName) {
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+    console.log(`Cookie ${cookieName} has been deleted`);
+}
+
+
   const handleLogout = () => {
+    deleteCookie('manGrow')
     dispatch(logout())
-    console.log(Object.keys(activeUser))
   }
+  
+  useEffect(()=>{
+    if(!Object.keys(activeUser).length) navigate('/signin')
+  },[activeUser])
 
-
-  useEffect(() => {
-    if (activeUser && !Object.keys(activeUser).length) {
-      navigate('/signin');
-    }
-    console.log(Object.keys(activeUser))
-  }, [activeUser])
+ 
 
 
   return (
-    <div class={`${theme} flex flex-col sm:flex-row rounded-xl border xl:w-full   border-gray-300 border-opacity-45   mt-2   items-center justify-between shadow-lg `}>
+    <div className={`${theme} flex flex-col sm:flex-row rounded-xl    xl:w-[100%] h-[100%]  border-gray-300 border-opacity-45   items-center justify-between shadow-lg `}>
 
-      <div class={`${theme} flex items-center justify-start p-4`}>
-        <h6 class={`${theme} float-start  sm:w-auto text-2xl text-blue-500 font-semibold m-6`}>
+      <div className={`${theme} flex items-center justify-start    p-4`}>
+        <h6 className={`${theme} float-start  sm:w-auto text-2xl text-blue-500 font-semibold `}>
           {company}
         </h6>
       </div>
 
-      <div class={`${theme} flex items-center justify-end py-4 pe-2`}>
+      <div className={`${theme} flex items-center justify-end  `}>
         <ProfileImageBox height='50px' width='50px' />
-        <h6 class={`${theme} px-4 `}>
+        <h6 className={`${theme} px-4 `}>
           {Object.keys(activeUser).length
-            ? activeUser.name
+            ? <button onClick={()=>{ if(Object.keys(activeUser).length && activeUser.otpVerified) navigate('/')}} type="button"> {activeUser.firstName} </button>
             : ''}
         </h6>
-        <button class='btn px-3 py-2 rounded-full focus:outline-none' onClick={handleLogout}>
+        
+        <button className='btn px-3 py-2 rounded-full focus:outline-none' onClick={handleLogout}>
           <FaPowerOff />
         </button>
         <button
           onClick={() => toggleDarkMode()}
-          class={`rounded-full w-10 h-10 flex items-center justify-center bg-gray-800   ${theme.theme} focus:outline-none`}
+          className={`rounded-full w-20 h-10 flex items-center justify-center bg-gray-800   ${theme.theme} focus:outline-none`}
         >
           {darkTheme ? "🌤" : "🌙"}
         </button>
       </div>
+
     </div>
 
   );

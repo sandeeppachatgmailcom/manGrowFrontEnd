@@ -21,6 +21,7 @@ const HomePage = () => {
 
             <div className={`xl:w-1/6 md:w-2/6 sm:w-full  ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`}>
                 <div >
+                <h6 className="font-bold text-2xl text-orange-500 ">Student</h6>
                     <Profile />
                 </div>
                 <div className="bg-transparent ">
