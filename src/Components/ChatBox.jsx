@@ -7,10 +7,10 @@ const ChatBox = ()=>{
     const [contact,setContact] = useState(['Sanoop ','Chandhini','midhun','veshal','ranjith','aswin'])
 
     return(
-        <div className=" shadow-lg h-[50%] overflow-y-auto rounded-xl">
+        <div className=" shadow-lg   overflow-y-auto rounded-xl">
             {contact.map((name)=>{
                 return(
-                    <div className="m-1 h-[40px] flex text-center justify-between">
+                    <div id="" className="m-1 h-[40px] flex text-center justify-between">
                         <div  className="flex "> 
                             <button className="text-1xl" >{name}</button>  
                         </div> 

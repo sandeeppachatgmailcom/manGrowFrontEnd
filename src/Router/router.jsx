@@ -5,6 +5,10 @@ import Login from "../Components/LoginWindow";
 import HomePage from "../Pages/HomePage";
 import MyAccount from "../Pages/MyAccount";
 import ProfilePage from "../Pages/ProfilePage";
+import TrainerHomePage from "../Pages/TrainerHomePage";
+import AdminHomePage from "../Pages/AdminHomePage";
+
+import ResetCredential from "../Pages/ResetCredential";
 
 
 const appRouter = createBrowserRouter([
@@ -12,9 +16,10 @@ const appRouter = createBrowserRouter([
         path:'/',
         element:<App/>,
         children:[
+           
             {
-                path:'/',
-                element:<HomePage/>
+                path:'/user',
+                element: <ProfilePage/>
             },
             {
                 path:'/signUp',
@@ -27,8 +32,31 @@ const appRouter = createBrowserRouter([
             {
                 path:'/profile',
                 element:<ProfilePage/>
+            },
+            {
+                path:'/Student',
+                element:<HomePage/>
+            },
+            {
+                path:'/Admin',
+                element:<AdminHomePage/>
+            },
+            {
+                path:'/Trainer',
+                element:<TrainerHomePage/>
+            },
+            {
+                path:'/submitOtp',
+                element:<ResetCredential/>
             }
-        ]
-    }
+            ,
+            {
+                path:'/',
+                element:<ProfilePage/>
+            }
+        ] 
+         
+    },
+    
 ])
 export default appRouter

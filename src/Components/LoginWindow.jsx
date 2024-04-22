@@ -2,25 +2,66 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Store/activeUser";
 import { Link, useNavigate } from "react-router-dom";
-import GAuth from "./GoogleAuthetication";
-import axios from '../api/axios'
-const login_url = '/auth'
+import GAuthsignin from "./googleAuthSignin";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { userApi } from "../api/api";
+import axiosApi from "../api/axios"; 
+
+ 
 function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const imagePath = '../src/images/sugc.png'
+  const [formData, setFormData] = useState({
+      name:'',
+      email:'',
+      password:'',
+      type:'',
+      googleAuth:false
+    })
+
     const classDarkTheme = useSelector((state)=>state.theme.theme)
     const darkMode =  useSelector((state)=>state.theme)
     const dispatch = useDispatch()
-    const activeUser =  useSelector((state)=>state.activeUser)  
+    const activeUser =  useSelector((state)=>state.activeUser.user)  
     const navigate = useNavigate()
+    
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+    };
+    
+    
+    
     const handleLogin = async (e) => {
       try {
         e.preventDefault();
-        const responce = await axios.post(login_url,JSON.stringify({email,password}),{headers:{'Content-Type':'application/json'},withCredentials:true}  ) 
-        
-        console.log(responce.data)
-
-        dispatch(login()) 
+        console.log(formData,userApi.login,'formDatasssssssssssssss','await axiosApi.post(userApi.login,formData ) ')
+        const responce = await axiosApi.post(userApi.login,formData ) 
+        console.log(responce.data.password,responce,'responce.data.password,responce,')
+      if(!responce.data.status){
+             toast.error('Wrong Credential')
+        }
+        else{
+          dispatch(login(responce.data))
+          if(responce.data.role=='Admin'){
+            navigate('/Admin')
+          }
+          else if(responce.data.role=='Student'){
+            navigate('/Student')
+          }
+          else if(responce.data.role=='user'){
+            navigate('/user')
+          }
+          else if(responce.data.role=='Trainer'){
+            navigate('/Trainer')
+          }
+         
+        }
+        console.log(responce,'response')
         
       } catch (error) {
         if(!error?.responce){
@@ -29,16 +70,54 @@ function Login() {
         
       }
     };
-useEffect(()=>{
-if(Object.keys(activeUser.user).length) navigate('/')
-},[activeUser])
 
+    useEffect(()=>{
+      console.log(!activeUser.otpVerified &&  Object.keys(activeUser).length>0,'!activeUser.otpVerified &&  Object.keys(activeUser).length ' )
+      if(!activeUser.otpVerified &&  Object.keys(activeUser).length>0 ){
+        navigate('/submitOtp')
+      }
+      else{
+        if(activeUser.role=='Admin'){
+          navigate('/Admin')
+        }
+        else if(activeUser.role=='Student'){
+          navigate('/Student')
+        }
+        else if(activeUser.role=='user'){
+          navigate('/user')
+        }
+        else if(activeUser.role=='Trainer'){
+          navigate('/Trainer')
+        }
+
+      }
+    },[activeUser])
+    const handleForgotPassword =async ()=>{
+      try {
+          console.log('console printed ',{email:formData.email,name:formData.email})  
+          dispatch(login(formData))
+          const otp =await axiosApi.post(userApi.forgotPassword,{email:formData.email,name:formData.email})
+          console.log(otp.data,'otp data ')
+          navigate('/submitOtp')
+      } catch (error) {
+        
+      }
+
+     
+    }
   
     return (
-      <div className={`  ${classDarkTheme + ' ' +darkMode.inputtext  } flex   justify-center items-center h-screen`}>
-        <div className={`  ${classDarkTheme  } border  w-96 p-8  rounded-lg shadow-md`}>
+      <div  className={`  ${classDarkTheme + ' ' +darkMode.inputtext  }   xl:flex lg:flex md:block sm:block  justify-center xl:w-full items-center m-3 `}>
+       <ToastContainer/>
+       <div className="xl:flex justify-center sm:w-full sm:block md:w-full xl:w-full h-[300px] "> 
+            <div style={{backgroundImage:`url('${imagePath}')`,backgroundPosition:'center' , backgroundSize:'contain',backgroundRepeat:'no-repeat' }} className={`  ${classDarkTheme  } xl:w-full  m-2 h-[100%]  `}>
+
+            </div>
+
+       </div>
+        <div className={`  ${classDarkTheme  } border xl:w-1/4 md:w-5/6 p-8  rounded-lg shadow-md`}>
           <h2 className={`  ${classDarkTheme} text-2xl font-semibold mb-4`}>Login</h2>
-          <h6 className={`  ${classDarkTheme} text-small  mb-4`}>'Error'  </h6>
+          <h6 className={`  ${classDarkTheme} text-small  mb-4`}> </h6>
           
           <form onSubmit={handleLogin}>
             <div className="mb-4">
@@ -48,8 +127,8 @@ if(Object.keys(activeUser.user).length) navigate('/')
                 id="email"
                 className={`${darkMode.inputtext} w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500`}
                 placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formData.email} name="email"
+                onChange={(e) => handleChange(e)}
                 required
               />
             </div>
@@ -58,26 +137,31 @@ if(Object.keys(activeUser.user).length) navigate('/')
               <input
                 type="password"
                 id="password"
+                name="password"
                 className={`${darkMode.inputtext} w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500`} 
                 placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={(e) => handleChange(e)}
                 required
               />
+              <div className="w-full flex justify-end "><small className="cursor-pointer text-right w-full text-blue-400" onClick={()=>{handleForgotPassword()}}>forgot password</small> </div>
             </div>
-            <div>
-                  <GAuth/>
-            </div>
+            <br />
+             
             <button
-              type="submit"
+              type="button" onClick={(e)=>{console.log(handleLogin(e))}}
               className="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300"
             >
               Login
             </button>
              <div className=" flex container justify-end">
-             <Link to="/signup">Register</Link>
+            <small onClick={()=>navigate('/signUp')} > Register </small>
 
              </div>
+             <h1 className='w-full text-center '> or </h1>
+            <div>
+                  <GAuthsignin/>
+            </div>
           </form>
         </div>
       </div>

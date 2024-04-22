@@ -1,16 +1,44 @@
 import { useForm } from "react-hook-form";
 import { CiEdit } from "react-icons/ci";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaWindowClose } from "react-icons/fa";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FaSave } from "react-icons/fa";
-const EditAcademicModal = ({ onClose, course }) => {
+import { login, saveUser } from "../Store/activeUser";
+import axiosApi from "../api/axios";
+import { userApi } from "../api/api";
+import { useNavigate } from "react-router-dom";
+const EditAcademicModal = (props) => {
+    const { arrayindex,onClose, course } = props
+    console.log(arrayindex,course,'anotherarrayIndex')
     const theme = useSelector((state) => state.theme.theme)
     const input = useSelector((state) => state.theme.inputtext)
+    const user = useSelector((state) => state.activeUser.user)
+    const dispatch = useDispatch()
     function* coursePeriod() {
         for (let i = 1947; i <= new Date().getFullYear(); i++) {
             yield i
         }
+    }
+    const [formData,setFormData]=useState(course)
+    const [activeUser,setActiveUser] =  useState(user)
+    const navigate = useNavigate()
+    const handleChange = (e)=>{
+        const {value,name} = e.target 
+        setFormData({
+            ...formData,
+            [name]:value
+        })
+    }
+    const saveData =async  ()=>{
+        let updatedUser = { ...activeUser };
+        const updatedAcademics = [...updatedUser.academics];
+        updatedAcademics[arrayindex] = formData;
+        updatedUser.academics = updatedAcademics;
+        const result = await axiosApi.post(userApi.saveBasicProfile,updatedUser) 
+        dispatch(login(result.data))
+        if(result.data) onClose() 
+        
     }
     
     const startYearRef = useRef()
@@ -23,14 +51,14 @@ const EditAcademicModal = ({ onClose, course }) => {
                 <div className="flex justify-end">
                     <button onClick={() => { onClose() }} className="rounded-lg"> <FaWindowClose /> </button>
                 </div>
-                <form action="">
+                 
                     <div className="flex justify-between">
                         <label className="w-2/4" htmlFor="CourseType">Course </label>
-                        <input className={`${input}  rounded w-2/4 `} {...register('Type')} type="text" name="" id="CourseType" />
+                        <input onChange={(e)=>handleChange(e) } className={`${input} h-[40px] rounded w-2/4 `} name='course' value={formData.course} type="text"   id="CourseType" />
                     </div>
                     <div className="flex justify-between items-center">
                         <label className="w-2/4" htmlFor="startYear">Start year</label>
-                        <select id="startYear" ref={startYearRef}  {...register('startYear')} className={`${theme} rounded w-2/4 text-black h-10`} >
+                        <select onChange={(e)=>handleChange(e) } id="startYear" ref={startYearRef} name="startYear" value={formData.startYear} className={`${theme} rounded w-2/4 text-black h-10`} >
                             {year.map((item) => (
                                 <option key={item} className={`${theme} rounded w-2/4 text-black h-10`}  value={item}>{item}</option>
                             ))}
@@ -39,7 +67,7 @@ const EditAcademicModal = ({ onClose, course }) => {
 
                     <div className="flex justify-between items-center">
                         <label className="w-2/4" htmlFor="endYear">End year</label>
-                        <select id="endYear"   {...register('endYear')} className={`${theme} rounded w-2/4 text-black h-10`} >
+                        <select onChange={(e)=>handleChange(e) } id="endYear" name="endYear"value={formData.endYear} className={`${theme} rounded w-2/4 text-black h-10`} >
                             {year
                                 .filter(item => item > 1947)
                                 .map(item => (
@@ -51,13 +79,13 @@ const EditAcademicModal = ({ onClose, course }) => {
                     </div>
                     <div className="flex justify-between ">
                         <label className="w-2/4 " htmlFor="CourseType">Institute   </label>
-                        <input  {...register('institute')} className={`${input}  rounded w-2/4 `} type="text" name="" id="CourseType" />
+                        <input onChange={(e)=>handleChange(e) } name='institute' value={formData.institute} className={`${input}  rounded w-2/4 `} type="text"  id="CourseType" />
                     </div>
                     <div className="flex justify-end items-center">
                          
-                    <button className="rounded w-1/12 bg-blue-400">  Save </button>
+                    <button onClick={()=>saveData()} className="rounded w-1/12 bg-blue-400">  Save </button>
                 </div>
-                </form>
+                
             </div>
         </div>
     )

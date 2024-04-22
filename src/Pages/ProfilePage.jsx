@@ -3,10 +3,14 @@ import { FaCamera } from "react-icons/fa6"
 import { useDispatch, useSelector } from "react-redux"
 import ProfileImageBox from "../Components/ProfileImage"
 import { useForm } from "react-hook-form"
-import { saveUser } from "../Store/activeUser"
+import { login, saveUser } from "../Store/activeUser"
 import Academics from "../Components/Academics"
 import JobTile from "../Components/JobTile"
 import { useNavigate } from "react-router-dom"
+import MenuBar from "../Components/MenuBar"
+import axios from "axios"
+import { publicApi, userApi } from "../api/api"
+import axiosApi from "../api/axios"
 
 
 const ProfilePage = () => {
@@ -18,95 +22,285 @@ const ProfilePage = () => {
     const navigate = useNavigate();
     const initialUserData = user
     const [isReadOnly, setIsReadOnly] = useState(true);
-    const { register, handleSubmit, errors } = useForm({ defaultValues: initialUserData });
+    const [pincode,setPincode] = useState('')
+    const [address,setAddress] = useState([])
 
-    const updateUserInfo = (data) => {
-        console.log(data)
-        dispatch(saveUser(data))
+    const loadAddress= async ()=>{
+        const address =await axios.get(`${publicApi.getPincode}${formData.pincode}`)
+        setAddress(address.data[0].PostOffice)
+    }
+    const getUser = async ()=>{
+        const responce = await axiosApi.get(userApi.getlogin,formData ) 
+        console.log( userApi.login,responce,'responce data in profie')
+        responce.data.success!==false? dispatch(login(responce.data)):navigate('/signin')
+    }
+    useEffect(()=>{
+        getUser()
+    } ,[])
 
+
+    const [formData,setFormData] = useState(user)  
+    console.log(user,'userfrom profile')  
+    const handleChange = (e)=>{
+        const {name,value} = e.target
+        setFormData( {
+             ...formData,
+             [name]:value
+             
+        })
+    } 
+    
+   
+   
+
+    const SavePetsonalinfo =async ()=>{
+        try {
+            console.log(userApi.saveBasicProfile,formData,'userApi.saveBasicInfo,formData')
+            const savedUser = await axiosApi.post(userApi.saveBasicProfile,formData)
+            dispatch(login(savedUser.data))
+        } catch (error) {
+            
+        }
     }
-    const handleEdit = () => {
-        setIsReadOnly(prevState => !prevState)
-        setBorder('gray-600')
-    }
+
+
+    useEffect(()=>{
+        
+        if(formData?.pincode?.length>5) {
+            console.log('something happened')
+            loadAddress()
+        }
+    },[formData])
+
     useEffect(() => {
-        console.log(user)
+         setFormData({
+            ...formData,
+            academics:[{
+                course:'SSLC',
+                startYear:2002,
+                endYear:2003,
+                mark:55,
+                institute:'GVHSS Calicut'
+            },{
+                course:'+2',
+                startYear:2003,
+                endYear:2005,
+                mark:70,
+                institute:'GVHSS Calicut'
+            },{
+                course:'Diploma in computer Science',
+                startYear:2005,
+                endYear:2009,
+                mark:60,
+                institute:'Institute electronics and telecommunication engineers- New delhi '
+            }] 
+        
+         })
     }, [user])
 
-    const [button,setButton] = useState(0)
+    
 
     return (
-        <div className="xl:flex sm-block w-100 xl: w-full">
-            <div class="xl:block sm:w-full xl:w-1/6 justify-start items-start p-2 border border-gray-300 border-opacity-45 rounded-xl mt-2">
-                <button type="button" onClick={()=>{setButton(0)}} className={button==0? `text-blue-600 font-semiboldbold text-start p-3 m-1  bg-blue-200 w-full h-[50px] rounded-r-full `: ` font-semiboldbold text-start p-3 m-1   w-full h-[50px] rounded-r-full `} >Profile</button>
-                <button type="button" onClick={()=>{setButton(1)}} className={button==1? `text-blue-600 font-semiboldbold text-start p-3 m-1  bg-blue-200 w-full h-[50px] rounded-r-full `: ` font-semiboldbold text-start p-3 m-1   w-full h-[50px] rounded-r-full `} >Home </button>
-                <button type="button" onClick={()=>{setButton(2)}} className={button==2? `text-blue-600 font-semiboldbold text-start p-3 m-1  bg-blue-200 w-full h-[50px] rounded-r-full `: ` font-semiboldbold text-start p-3 m-1   w-full h-[50px] rounded-r-full `} >About us </button>
-                <button type="button" onClick={()=>{setButton(3);navigate('/')}} className={button==3? `text-blue-600 font-semiboldbold text-start p-3 m-1  bg-blue-200 w-full h-[50px] rounded-r-full `: ` font-semiboldbold text-start p-3 m-1   w-full h-[50px] rounded-r-full `} >Pending Task </button>
-            </div>
-
-            <div class={`${theme} w-full  xl:flex flex-wrap sm:block  items-center justify-between min-h-screen border border-gray-300 border-opacity-45 rounded-xl xl:ms-1 mt-2 `}>
-                <form onSubmit={handleSubmit(updateUserInfo)} >
+        <>
+        {user?
+        <div className="xl:flex w-sm-block w-100 xl:w-full md:flex lg:flex " >
+             <div className="xl:block md:w-1/4  sm:w-full xl:w-1/6 justify-start items-start p-2 border border-gray-300 border-opacity-45 rounded-xl mt-2">
+                <MenuBar/>   
+             </div>
+             
+            <div style={{msOverflowStyle:'none ', scrollbarWidth: "none"}} className="overflow-y-scroll  w-full  xl:flex border  border-gray-300 border-opacity-45 rounded-xl xl:ms-1 mt-2 ">
+            <div className={`${theme} w-full  flex-wrap sm:block rounded-xl   items-center justify-between min-h-screen `}>
+                 
                     
-                    <div className="flex flex-wrap flex-col  items-center justify-center py-4  ">
-                        <ProfileImageBox height='200px' width='200px' />
-                        <h5 className="text-center">Info about you and your preferences across Mangrow services</h5>
-                    </div>
-                     
-                    <div className="block sm:w-full xl:flex p-1 items-center justify-center" >
-                        <br />
+                <div className="flex flex-col justify-center w-full  ">
+                    <ProfileImageBox height='200px' width='200px' />
+                    {!user.active? <h5 className="text-center text-xl text-red-500 font-bold" >your id is waiting for approval ,complete your profile updation now!</h5>:'' }
+                    <h5 className="text-center">Info about you and your preferences across Mangrow services</h5>
+                </div>
+                 
+                <div className="block sm:w-full xl:flex p-1 items-center justify-center" >
+                    <br />
 
-                        <div className={`${theme}  block w-full justify-center items-center rounded-xl m-1 `}>
-                            <div className="justify-center   rounded-2xl  ">
-                                <h5 className=" text-2xl text-center  "> Basic info   </h5>
-                                <div className=" bg-yello h-100 justify-center text-center" >
-                                    <div className="flex text-center  justify-center">
-                                        <input type="text" className={`${darkTheme.inputtext} text-xl appearance-none  text-center rounded-sm    border-${border}  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly} {...register('name')} name="name" id="username-input" />     <br />
-                                    </div>
-                                    <div className="xl:flex sm:block text-center sm:w-full justify-center">
-                                        <input type="text" className={`${darkTheme.inputtext} appearance-none  text-xl w-auto text-center rounded-sm    border-${border}  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('houseName')} name="HouseName" id="username-input" /> <br />
-                                        <input type="text" className={`${darkTheme.inputtext} text-xl appearance-none  w-auto text-center rounded-sm    border-${border}  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('streetName')} name="streetNam" id="username-input" /> <br />
-                                        <input type="text" className={`${darkTheme.inputtext} text-xl appearance-none  w-auto text-center rounded-sm      border-${border}  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('city')} name="streetNam" id="username-input" /> <br />
-                                        <input type="text" className={`${darkTheme.inputtext} text-xl appearance-none  w-auto text-center rounded-sm    border-${border}  focus:border-gray-400 focus:outline-none`} readOnly={isReadOnly}  {...register('pincode')} name="pincode" id="username-input" /> <br />
-                                    </div>
-                                    {isReadOnly === false ? (
-                                        <button className="rounded-lg text-gray-950 shadow-md bg-gray-100 m-4 p-2 w-20" type="submit">
-                                            Save
-                                        </button>
-                                    ) : (
-                                        <button onClick={() => handleEdit()} className="rounded-lg text-gray-950 shadow-md bg-gray-100 m-4 p-2 w-20">
-                                            Edit Bio
-                                        </button>
-                                    )}
+                    <div className={`${theme}  block w-full justify-center items-center rounded-xl m-1 `}>
+                        <div className="justify-center   rounded-2xl  ">
+                            <h5 className=" text-2xl text-center  "> Basic info   </h5>
+                            <div className="border bg-yello h-100 flex w-full sm:block md:flex lg:flex justify-center text-center" >
+                            <div className="border w-2/6 block">
+                                <div className="flex text-center border  m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className='w-1/4 text-left ' htmlFor="">Name</label>
 
-                                    <div>
-                                    </div>
-
+                                    <input type="text"  onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}  appearance-none   rounded-sm     w-3/4   text-left   border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.firstName}
+                                     name="firstName" 
+                                    id="id_firstName" />     
+                                    <br />
                                 </div>
-                            </div>
-
-                            <div className="block w-full justify-center items-center rounded-xl m-1 ">
-                                <h5 className="text-center text-2xl  ">Academic</h5>
-                                <div className="xl:flex sm:block sm:w-100 flex-wrap justify-center items-center"> {/* Added items-center here */}
-                                    {user.academics.map((item) => <Academics course={item} />)}
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className='w-1/4 text-left' htmlFor="">Last Name</label>
+                                    <input type="text"   onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}  appearance-none    text-left  rounded-sm  w-3/4   border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.lastName}
+                                     name="lastName" 
+                                    id="id_lastName" />     
+                                    <br/>
                                 </div>
-                            </div>
-
-                            <div className=" block w-full rounded-xl m-1  ">
-                                <h5 className="text-center text-2xl ">Experiance </h5>
-                                <div className="flex xl:flex sm:block sm:w-100 flex-wrap justify-center ">
-                                    {user.experiance.map((item) => <JobTile company={item} />)}
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className='w-1/4 text-left' htmlFor="">Father </label>
+                                    <input type="text"  onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}  appearance-none    text-left  rounded-sm  w-3/4   border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.fatherName}
+                                    name="fatherName" 
+                                    id="id_fatherName" />     
+                                    <br />
                                 </div>
-                            </div>
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className='w-1/4 text-left' htmlFor="">Mother</label>
+                                    <input type="text"     onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}   appearance-none    text-left  rounded-sm  w-3/4  border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.motherName}
+                                    name="motherName" 
+                                    id="id_motherName" />     
+                                    <br />
+                                </div>
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className='w-1/4 text-left ' htmlFor="">dateOfBirth</label>
 
+                                    <input type="date"  onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}  appearance-none   rounded-sm     w-3/4   text-left   border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.dateOfBirth}
+                                    name="dateOfBirth" 
+                                    id="id_dateOfBirth" />     
+                                    <br />
+                                </div>
+                                </div>
+                                
+                                <div className="border w-2/6 block">
+                               
+                                
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className='w-1/4 text-left' htmlFor="">Email</label>
+                                    <input type="text"  readOnly  onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}   appearance-none    text-left  rounded-sm  w-3/4  border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.email}
+                                    name="email" 
+                                    id="id_email" />     
+                                    <br />
+                                </div>
+                                
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className="w-1/4 text-left" htmlFor="">Phone</label>
+                                    <input type="text"   onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}  appearance-none     text-left rounded-sm w-3/4   border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.mob}
+                                    name="mob" 
+                                    id="id_mob" />     
+                                    <br />
+                                </div>
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className="w-1/4 text-left" htmlFor="">web</label>
+                                    <input type="text"  onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}  appearance-none     text-left rounded-sm w-3/4   border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.web}
+                                    name="web" 
+                                    id="id_web" />     
+                                    <br />
+                                </div>
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className='w-2/4 text-left ' htmlFor="">House num</label>
+
+                                    <input type="text"  onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}  appearance-none   rounded-sm     w-3/4   text-left   border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.houseNumber}
+                                     name="houseNumber" 
+                                    id="id_houseNumber" />     
+                                    <br />
+                                </div>
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className='w-2/4 text-left ' htmlFor="">House name</label>
+
+                                    <input type="text"  onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}  appearance-none   rounded-sm     w-3/4   text-left   border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.houseName}
+                                     name="houseName" 
+                                    id="id_houseName" />     
+                                    <br />
+                                </div>
+                               
+
+
+
+
+                                
+                                </div>
+
+                                <div className="border w-2/6 block">
+                                
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className='w-1/4 text-left' htmlFor="">streetName</label>
+                                    <input type="text"   onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}  appearance-none    text-left  rounded-sm  w-3/4   border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.streetName}
+                                     name="streetName" 
+                                    id="id_streetName" />     
+                                    <br />
+                                </div>
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className='w-1/4 text-left' htmlFor="">city</label>
+                                    <select className={`${darkTheme.inputtext}   appearance-none    text-left    w-3/4  border-${border}  focus:border-gray-400 focus:outline-none`}
+                                      onChange={(e)=>handleChange(e)}
+                                    name="city" 
+                                    id="id_City" >
+                                        {
+                                            address?.map((item)=> <option selected={item.Name==user.city} value={item.Name}>{item.Name}</option> )
+                                        }
+                                    </select>
+   
+                                    <br />
+                                </div>
+                                <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
+                                    <label className="w-1/4 text-left" htmlFor="">pincode</label>
+                                    <input type="text"   onChange={(e)=>handleChange(e)}
+                                    className={`${darkTheme.inputtext}  appearance-none     text-left rounded-sm w-3/4   border-${border}  focus:border-gray-400 focus:outline-none`} 
+                                    value={formData.pincode}
+                                    name="pincode" 
+                                    id="id_pincode" />     
+                                    <br />
+                                </div>
+                                 
+                                <div className="flex justify-end ">
+                                <button onClick={()=>{SavePetsonalinfo()}} className="border m-1 w-[70px] bg-blue-500 rounded-md text-white cursor-pointer h-[40px] ">Save </button>   
+                                <button onClick={()=>{setFormData(user)}} className="border m-1 w-[70px] bg-red-600  rounded-md text-white  cursor-pointer h-[40px] ">Reset  </button>
+                                </div>
+                                </div>
+                                
+                                
+                            
+                            </div>
+                        </div>
+
+                        <div className="block w-full justify-center items-center rounded-xl m-1 ">
+                            <h5 className="text-center text-2xl  ">Academic</h5>
+                            <div className="xl:flex sm:block md:flex lg:flex  sm:w-100 flex-wrap justify-center items-center"> {/* Added items-center here */}
+                                {user.academics?.map((item,index) => <Academics arrayindex={index} course={item} />)}
+                            </div>
                         </div>
 
                     </div>
 
+                </div>
 
-                </form>
+
+            
+
+            
+            </div>
+            
 
             </div>
-        </div>
+           
+        </div>:''}
+        </>
 
     )
 }
