@@ -6,7 +6,8 @@ import { useSelector } from "react-redux"
 import ReserwithOldPassword from "../Components/ResetWithOldPasssword"
 import { ToastContainer, toast } from "react-toastify"
 
-const ResetCredential = ()=>{
+const ResetCredential = (props)=>{
+    const {option} = props
     const [password,setPassword] = useState(false)
     const activeUser = useSelector((state) => state.activeUser.user)
     const springs = useSpring({
@@ -22,7 +23,8 @@ const ResetCredential = ()=>{
             </div> 
              
             <div className="xl:w-2/6 lg:w-full   justify-center sm:w-full bg-transparent sm:m-[-40]   xl:h-50 items-center flex   ">
-                  <SubmitOtp />  
+                 { console.log(activeUser)}
+                 {!option? <SubmitOtp/>:option=='resetPassword'?<ResetpasswordwithOtp email={activeUser} />:""    }
             </div>
             
             

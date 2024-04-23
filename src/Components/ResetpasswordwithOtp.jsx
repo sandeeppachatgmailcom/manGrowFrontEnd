@@ -1,18 +1,25 @@
 import { useRef, useState } from "react";
 import SignupPage from "./SignupPage"
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BsEyeFill } from "react-icons/bs";
 import { BiSolidHide } from "react-icons/bi";
 import { userApi } from "../api/api";
 import axiosApi from "../api/axios";
 import { toast } from "react-toastify";
+import { login } from "../Store/activeUser";
+import { useNavigate } from "react-router-dom";
+import Modal from "../Pages/loadingModal";
 
 const ResetpasswordwithOtp = (props) => {
-  const [formData, setFormData] = useState({ email: props.user.email })
+  console.log(props)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [formData, setFormData] = useState({ email: props.email })
   const [view, setView] = useState('password')
   const [password, setPassword] = useState('')
   const [retypeView, setRetypeView] = useState('password')
   const darkTheme = useSelector((state) => state.theme)
+  const [modal,setModal] = useState(false)
   const ref = useRef()
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -27,13 +34,15 @@ const ResetpasswordwithOtp = (props) => {
       e.preventDefault();
       console.log(formData, userApi, 'formData')
       console.log(userApi.resetPasswordwithOtp, formData, 'userApi.resetPasswordwithOtp,formData')
+      setModal(true)
       const responce = await axiosApi.post(userApi.resetPasswordwithOtp, formData)
+      setModal(false)
       console.log(responce, 'responce')
       if (!responce.data.status) {
         toast.error('Wrong Credential')
       }
       else {
-        toast.success('Otp verified')
+        toast.success('Password changed')
         setTimeout(() => {
           dispatch(login(responce.data))
           if (responce.data.role == 'Admin') {
@@ -63,18 +72,20 @@ const ResetpasswordwithOtp = (props) => {
 
   return (
     <div className={`${darkTheme.inputtext} flex flex-col items-center   w-full justify-center  bg-opacity-35 z-50`}>
+      {modal?<Modal/>:''}
       <div className="flex  w-full justify-end  " >
         <button type="button" className="font-bold justify-self-center w-[30px] sm:w1/2 md:w1/2  bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300" >
           X
         </button>
 
       </div>
+       <h1 className=" text-blue-400 text-2xl font-semibold"> Change your password </h1>
       <div className=" border sm:w-full lg:w-4/6 flex xl:w-5/6 justify-self-center   rounded-xl p-4 mt-2">
-
+              
         <div className="w-full flex flex-col    mt-3 ">
           <div>
             <label htmlFor="email" className='text-sm'  >Email address</label>
-            <input id="email" name="email" type="email" onLoad={(e) => { handleChange(e) }} readOnly required value={props?.user?.email} autoComplete="email" className={`${darkTheme.inputtext} appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`} placeholder="Email address" />
+            <input readOnly id="email" name="email" type="email" onLoad={(e) => { handleChange(e) }}   required value={formData.email} autoComplete="email" className={`${darkTheme.inputtext} appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`} placeholder="Email address" />
           </div>
 
           <div>

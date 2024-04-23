@@ -77,7 +77,7 @@ const validatePassword = (password) => {
     const result = await axiosApi.post(userApi.signUp,formData)
     .then(response => {
       console.log('Response:', response?.data);
-      if(response?.data.email){
+      if(response?.data.success){
         console.log("inside")
         toast.success(`user ${response.data.name} created ,Validate OTP while Sign in within 30 minute `,   )
       }
