@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from 'react';
 
-const ButtonSwitch = ({ initialValue, onChange }) => {
-  const [value, setValue] = useState(initialValue);
+const ButtonSwitch = ({name, value, onChange }) => {
+  const [stateValue, setStateValue] = useState(value);
     useEffect(()=>{
-        setValue(initialValue)
-    },[initialValue])
+      setStateValue(value)
+    },[value])
   const handleClick = () => {
-    const newValue = !value;
-    setValue(newValue);
-    onChange && onChange(newValue);
+    const newValue = !stateValue;
+    setStateValue(newValue);
+    onChange && onChange( name,newValue);
   };
 
   return (
     <button
-      className={`w-16 h-8 rounded-full focus:outline-none transition-colors ${value ? 'bg-blue-500' : 'bg-orange-700'}`}
+      className={`w-12 h-6 rounded-full align-middle items-center flex focus:outline-none transition-colors ${stateValue ? 'bg-blue-500' : 'bg-orange-700'}`}
       onClick={handleClick}
     >
-      <span className={`block w-6 h-6 rounded-full bg-white shadow-md transform transition-transform ${value ? 'translate-x-8' : ''}`}></span>
+      <span className={`flex ali  w-7 h-7 border-spacing-2 border-gray-700 rounded-full bg-white shadow-gray-700  shadow-md transform transition-transform ${stateValue ? 'translate-x-8' : ''}`}></span>
     </button>
   );
 };

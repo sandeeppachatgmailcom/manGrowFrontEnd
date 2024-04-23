@@ -49,16 +49,16 @@ function Login() {
         }
         else{
           dispatch(login(responce.data))
-          if(responce.data.role=='Admin'){
+          if(responce.data.role=='admin'){
             navigate('/Admin')
           }
-          else if(responce.data.role=='Student'){
+          else if(responce.data.role=='student'){
             navigate('/Student')
           }
           else if(responce.data.role=='user'){
             navigate('/user')
           }
-          else if(responce.data.role=='Trainer'){
+          else if(responce.data.role=='trainer'){
             navigate('/Trainer')
           }
          
@@ -79,16 +79,16 @@ function Login() {
         navigate('/submitOtp')
       }
       else{
-        if(activeUser.role=='Admin'){
+        if(activeUser.role=='admin'){
           navigate('/Admin')
         }
-        else if(activeUser.role=='Student'){
+        else if(activeUser.role=='student'){
           navigate('/Student')
         }
         else if(activeUser.role=='user'){
           navigate('/user')
         }
-        else if(activeUser.role=='Trainer'){
+        else if(activeUser.role=='trainer'){
           navigate('/Trainer')
         }
 
@@ -135,7 +135,7 @@ function Login() {
           <h2 className={`  ${classDarkTheme} text-2xl font-semibold mb-4`}>Login</h2>
           <h6 className={`  ${classDarkTheme} text-small  mb-4`}> </h6>
           
-          <form onSubmit={handleLogin}>
+          
             <div className="mb-4">
               <label htmlFor="email" className={`  ${classDarkTheme} block `}>Email</label>
               <input
@@ -178,7 +178,7 @@ function Login() {
             <div>
                   <GAuthsignin/>
             </div>
-          </form>
+          
         </div>
       </div>
     );

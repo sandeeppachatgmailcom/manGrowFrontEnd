@@ -7,9 +7,9 @@ const MenuBar=()=>{
     const [button,setButton] = useState(0)
     const activeUser = useSelector((state)=>state.activeUser.user)
     const findHomePage = (user)=>{
-        if(user =='Admin') navigate('/Admin') 
-        else if(user =='Trainer') navigate('/Trainer')
-        else if(user =='Student') navigate('/Student') 
+        if(user =='admin') navigate('/Admin') 
+        else if(user =='trainer') navigate('/Trainer')
+        else if(user =='student') navigate('/Student') 
         else if(user =='user') navigate('/user') 
     }
 
@@ -19,13 +19,9 @@ const MenuBar=()=>{
  
    const handleMenuClick = ()=>{
     if(button==1){
-        console.log(activeUser.role,'activeUser.role')
-
         findHomePage(activeUser.role)
     }
     else if(button==3){
-        console.log(activeUser.role)
-
         findHomePage(activeUser.role)
     }
 
