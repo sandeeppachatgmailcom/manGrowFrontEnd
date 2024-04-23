@@ -26,6 +26,7 @@ const ProfilePage = () => {
     const [address,setAddress] = useState([])
 
     const loadAddress= async ()=>{
+
         const address =await axios.get(`${publicApi.getPincode}${formData.pincode}`)
         setAddress(address.data[0].PostOffice)
     }
@@ -35,7 +36,7 @@ const ProfilePage = () => {
         responce.data.success!==false? dispatch(login(responce.data)):navigate('/signin')
     }
     useEffect(()=>{
-        getUser()
+        !user?getUser():''
     } ,[])
 
 

@@ -15,7 +15,8 @@ export const publicApi = {
 }
 
 export const adminApis={
-    listAllstaffpendingApprovals:'/admin/listpendingStaff'
+    listAllstaffpendingApprovals:'/admin/listpendingStaff',
+    approveStaff:'/admin/approveStaff'
 }
 
 export const utilityApis ={

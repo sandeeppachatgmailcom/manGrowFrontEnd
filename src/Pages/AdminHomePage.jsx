@@ -33,13 +33,10 @@ const AdminHomePage = () => {
                  
             </div>
         </div>
-        <div className={`block h-100 xl:w-4/6 xl:m-1 xl:mt-2 sm:w-full md-w-full   ${darkTheme.theme + divlign}`}>
+        <div className={`block h-100 xl:w-4/6 xl:m-1 xl:mt-2 sm:w-full md-w-full    ${darkTheme.theme + divlign}`}>
             <AdminSubmenu/>
             {selectedSubMenu == 'batches'?<AdminContent/>:
             selectedSubMenu == 'Approve'?<ApproveStaff/>:''} 
-             
-            
-             
         </div>
         <div className={`xl:w-1/6 md:w-2/6 sm:w-full ${darkTheme.theme + divlign} border border-gray-300 border-opacity-45 rounded-xl mt-2 p-2`} >
             <ChatBox/>  
