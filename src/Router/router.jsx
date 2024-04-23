@@ -49,6 +49,10 @@ const appRouter = createBrowserRouter([
                 path:'/submitOtp',
                 element:<ResetCredential/>
             }
+            ,{
+                path:'/submitOtptoresetPassword',
+                element:<ResetCredential option='resetPassword' />
+            }
             ,
             {
                 path:'/',

@@ -8,6 +8,7 @@ import axiosApi from "../api/axios";
 import { userApi } from "../api/api";
 import { ToastContainer, toast } from "react-toastify";
 import { act } from "react-dom/test-utils";
+import Modal from "../Pages/loadingModal";
 const SubmitOtp = () => {
     const darkTheme = useSelector((state) => state.theme)
     const activeUser = useSelector((state) => state.activeUser.user)
@@ -18,6 +19,7 @@ const SubmitOtp = () => {
     const otp3 = useRef()
     const otp4 = useRef()
     const [otp,setOtp]  = useState(['','','',''])  
+    const [modal,setModal] = useState(false)
 
     const handleOtp =()=>{
         setOtp([
@@ -32,12 +34,23 @@ const SubmitOtp = () => {
     const valdateOtp = async ()=>{
         const userData = {
             email:activeUser.email,
-            otp:otp.join("")
+            otp:otp.join(""),
+            resetPaaword:true
         }
+        setModal(true)
        const result = await  axiosApi.post(userApi.validateOtp,userData)
-       if(result.data.otpVerified){
-            toast.success('Otp verified')
-            dispatch(login(result.data))
+       setModal(false)
+       if(result.data.otpVerified && result.data.resetPaaword ){
+            dispatch(login(result.data.email))
+            navigate('/submitOtptoresetPassword')
+       }
+       else if(result.data.otpVerified && !result.data.resetPaaword ){
+         dispatch(login(result.data.email))
+         gotoHome(result.data.role)
+       }
+       else{
+        toast.error(result.data.message)
+        
        }
             
        console.log(result,'validated otp result ')
@@ -46,7 +59,7 @@ const SubmitOtp = () => {
      const gotoHome=(user)=>{
         {
             if(user =='Admin')  navigate('/Admin') 
-            else if(user =='Trainer') navigate('/Admin')
+            else if(user =='Trainer') navigate('/Trainer')
             else if(user =='Student') navigate('/Student') 
             else if(user =='user') navigate('/user') 
         }
@@ -61,6 +74,7 @@ const SubmitOtp = () => {
 
         <div className={`${darkTheme.inputtext}  inset-0 flex items-center  w-full justify-center  bg-opacity-35 z-50`}>
        <ToastContainer/>
+       {modal?<Modal/>:''}
             <div className={`  rounded-lg border shadow-white shadow-md   p-2 lg:flex-nowrap md:flex-nowrap flex flex-col justify-center align-middle ${darkTheme.theme} `}>
                 <div className="sm:w-full  flex justify-between  bottom-0  h-[50px]">
                     <h5 className={'${darkTheme.inputtext} m-1   text-blue-500 text-20xl'}> Enter the one time password sent to your email  </h5>

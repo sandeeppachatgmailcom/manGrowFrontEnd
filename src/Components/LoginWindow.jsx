@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../Store/activeUser";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { userApi } from "../api/api";
 import axiosApi from "../api/axios"; 
+import Modal from "../Pages/loadingModal";
 
  
 function Login() {
@@ -19,12 +20,13 @@ function Login() {
       type:'',
       googleAuth:false
     })
-
+    const [modal,setModal] = useState(false)
     const classDarkTheme = useSelector((state)=>state.theme.theme)
     const darkMode =  useSelector((state)=>state.theme)
     const dispatch = useDispatch()
     const activeUser =  useSelector((state)=>state.activeUser.user)  
     const navigate = useNavigate()
+    const emailRef = useRef()
     
     const handleChange = (e) => {
       const { name, value } = e.target;
@@ -41,7 +43,7 @@ function Login() {
         e.preventDefault();
         console.log(formData,userApi.login,'formDatasssssssssssssss','await axiosApi.post(userApi.login,formData ) ')
         const responce = await axiosApi.post(userApi.login,formData ) 
-        console.log(responce.data.password,responce,'responce.data.password,responce,')
+        console.log(responce ,'responce.data.password,responce,')
       if(!responce.data.status){
              toast.error('Wrong Credential')
         }
@@ -92,13 +94,25 @@ function Login() {
 
       }
     },[activeUser])
+
+
     const handleForgotPassword =async ()=>{
       try {
-          console.log('console printed ',{email:formData.email,name:formData.email})  
-          dispatch(login(formData))
+          
+        if( emailRef?.current?.value){
+          setModal(true)
           const otp =await axiosApi.post(userApi.forgotPassword,{email:formData.email,name:formData.email})
-          console.log(otp.data,'otp data ')
-          navigate('/submitOtp')
+          setModal(false) 
+          if(otp?.data?.success)     {
+             dispatch(login(formData))
+             navigate('/submitOtp')}
+          else toast.error(otp?.data?.message)
+        }
+        else{
+           
+          toast.error('submit a valid email')
+        }
+         
       } catch (error) {
         
       }
@@ -109,6 +123,8 @@ function Login() {
     return (
       <div  className={`  ${classDarkTheme + ' ' +darkMode.inputtext  }   xl:flex lg:flex md:block sm:block  justify-center xl:w-full items-center m-3 `}>
        <ToastContainer/>
+      {modal?<Modal/>:''}
+
        <div className="xl:flex justify-center sm:w-full sm:block md:w-full xl:w-full h-[300px] "> 
             <div style={{backgroundImage:`url('${imagePath}')`,backgroundPosition:'center' , backgroundSize:'contain',backgroundRepeat:'no-repeat' }} className={`  ${classDarkTheme  } xl:w-full  m-2 h-[100%]  `}>
 
@@ -124,7 +140,7 @@ function Login() {
               <label htmlFor="email" className={`  ${classDarkTheme} block `}>Email</label>
               <input
                 type="email"
-                id="email"
+                id="email" ref={emailRef} 
                 className={`${darkMode.inputtext} w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500`}
                 placeholder="Enter your email"
                 value={formData.email} name="email"
