@@ -38,23 +38,23 @@ const ResetpasswordwithOtp = (props) => {
       const responce = await axiosApi.post(userApi.resetPasswordwithOtp, formData)
       setModal(false)
       console.log(responce, 'responce')
-      if (!responce.data.status) {
-        toast.error('Wrong Credential')
+      if (!responce.data.active) {
+        toast.error('user is not active please contact admin')
       }
       else {
         toast.success('Password changed')
         setTimeout(() => {
           dispatch(login(responce.data))
-          if (responce.data.role == 'Admin') {
+          if (responce.data.role == 'admin') {
             navigate('/Admin')
           }
-          else if (responce.data.role == 'Student') {
+          else if (responce.data.role == 'student') {
             navigate('/Student')
           }
           else if (responce.data.role == 'user') {
             navigate('/user')
           }
-          else if (responce.data.role == 'Trainer') {
+          else if (responce.data.role == 'trainer') {
             navigate('/Trainer')
           }
 

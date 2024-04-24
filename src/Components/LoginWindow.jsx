@@ -44,10 +44,11 @@ function Login() {
         console.log(formData,userApi.login,'formDatasssssssssssssss','await axiosApi.post(userApi.login,formData ) ')
         const responce = await axiosApi.post(userApi.login,formData ) 
         console.log(responce ,'responce.data.password,responce,')
-      if(!responce.data.status){
-             toast.error('Wrong Credential')
+      if(!responce.data.active){
+             toast.error('user is not active , please contact admin')
         }
         else{
+          if(!responce.data.otpVerified) responce.data.resetPaaword=false;
           dispatch(login(responce.data))
           if(responce.data.role=='admin'){
             navigate('/Admin')
@@ -103,7 +104,9 @@ function Login() {
           setModal(true)
           const otp =await axiosApi.post(userApi.forgotPassword,{email:formData.email,name:formData.email})
           setModal(false) 
-          if(otp?.data?.success)     {
+          if(otp?.data?.success)  
+             {
+              formData.resetPaaword =true;
              dispatch(login(formData))
              navigate('/submitOtp')}
           else toast.error(otp?.data?.message)

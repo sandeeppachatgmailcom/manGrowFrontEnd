@@ -14,6 +14,42 @@ const SubmitOtp = () => {
     const activeUser = useSelector((state) => state.activeUser.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [min,setMin] = useState(0)
+    const [sec,setSec] = useState(10)
+    const [resend,setResend] = useState(false)
+
+    useEffect(() => {
+        const timerId = setTimeout(() => {
+            // Check if there are remaining seconds
+            if (sec > 0) {
+                setSec(sec - 1);
+            } else {
+                // If no remaining seconds, decrement minutes and reset seconds to 59
+               if(min>0) setMin(min - 1);
+               if(min>0) setSec(59);
+            }
+        }, 1000);
+        
+        if(!min && !sec) {
+            setResend(true)  }
+        // Clean up the timer when the component unmounts
+        return () => clearTimeout(timerId);
+      
+    }, [sec, min]);
+
+
+    const timeout=()=>{
+       const b =  setTimeout(() => {
+            if(sec) setSec(sec-1)
+            else {
+            setMin(min-1)
+            setSec(60)    
+        }
+        }, 1000);
+        clearInterval(b);
+    }
+    
+
     const otp1 = useRef()
     const otp2 = useRef()
     const otp3 = useRef()
@@ -30,12 +66,39 @@ const SubmitOtp = () => {
         ])
         console.log(otp,'otp after update',otp.join(''))
     }
-    
+     
+
+    const resendOtp =async ()=>{
+        try {
+            
+          if( emailRef?.current?.value){
+            setModal(true)
+            const otp =await axiosApi.post(userApi.forgotPassword,{email:activeUser.email,name:activeUser.firstName})
+            setModal(false) 
+            if(otp?.data?.success)  
+               {
+                formData.resetPaaword =false;
+               dispatch(login(formData))
+               navigate('/submitOtp')}
+            else toast.error(otp?.data?.message)
+          }
+          else{
+             
+            toast.error('submit a valid email')
+          }
+           
+        } catch (error) {
+          
+        }
+  
+       
+      }
+
     const valdateOtp = async ()=>{
         const userData = {
             email:activeUser.email,
             otp:otp.join(""),
-            resetPaaword:true
+            resetPaaword:activeUser.resetPaaword
         }
         setModal(true)
        const result = await  axiosApi.post(userApi.validateOtp,userData)
@@ -58,9 +121,9 @@ const SubmitOtp = () => {
 
      const gotoHome=(user)=>{
         {
-            if(user =='Admin')  navigate('/Admin') 
-            else if(user =='Trainer') navigate('/Trainer')
-            else if(user =='Student') navigate('/Student') 
+            if(user =='admin')  navigate('/Admin') 
+            else if(user =='trainer') navigate('/Trainer')
+            else if(user =='student') navigate('/Student') 
             else if(user =='user') navigate('/user') 
         }
      }
@@ -114,8 +177,10 @@ const SubmitOtp = () => {
                     }}  name="" id="" />
                 </div>
                     <br />
-                <div className={`${darkTheme.inputtext} flex rounded-xl bg-transparent justify-end `}> 
-                    <button onClick={()=>valdateOtp()} className={`m-1 w-2/6  ${darkTheme.theme} m-4 text-center align-center justify-center bg-opacity-35-300 border h-10 rounded-md  text-blue-500 font-semibold `}> VALIDATE  </button> 
+                    
+                <div className={`${darkTheme.inputtext} flex rounded-xl bg-transparent items-center justify-end `}> 
+                <h1 className="text-orange-500 font-bold text-1xl ">{`Expire in ${min} minute ${sec} sec`}  </h1>
+                {resend? <button onClick={()=>resendOtp()} className={`m-1 w-2/6  ${darkTheme.theme} m-4 text-center align-center justify-center bg-opacity-35-300 border h-10 rounded-md  text-blue-500 font-semibold `}> RESEND OTP  </button> : <button onClick={()=>valdateOtp()} className={`m-1 w-2/6  ${darkTheme.theme} m-4 text-center align-center justify-center bg-opacity-35-300 border h-10 rounded-md  text-blue-500 font-semibold `}> VALIDATE  </button> }
                     
                 </div>
             </div>
