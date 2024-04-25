@@ -36,7 +36,7 @@ const ProfilePage = () => {
         responce.data.success!==false? dispatch(login(responce.data)):navigate('/signin')
     }
     useEffect(()=>{
-        !user?getUser():''
+        !Object.keys(user).length?getUser():''
     } ,[])
 
 
@@ -44,11 +44,15 @@ const ProfilePage = () => {
     console.log(user,'userfrom profile')  
     const handleChange = (e)=>{
         const {name,value} = e.target
+
         setFormData( {
              ...formData,
              [name]:value
              
-        })
+        }
+
+    )
+    console.log(e.target,'console.log(e.target)')
     } 
     
    
@@ -114,7 +118,7 @@ const ProfilePage = () => {
                  
                     
                 <div className="flex flex-col justify-center w-full  ">
-                    <ProfileImageBox height='200px' width='200px' />
+                    <ProfileImageBox changebutton={true} height='200px' width='200px' imageLink={formData.profileImage} onParentChange={(e)=>handleChange(e)} />
                     {!user.active? <h5 className="text-center text-xl text-red-500 font-bold" >your id is waiting for approval ,complete your profile updation now!</h5>:'' }
                     <h5 className="text-center">Info about you and your preferences across Mangrow services</h5>
                 </div>

@@ -36,7 +36,7 @@ const ResetpasswordwithOtp = (props) => {
       console.log(userApi.resetPasswordwithOtp, formData, 'userApi.resetPasswordwithOtp,formData')
       setModal(true)
       const responce = await axiosApi.post(userApi.resetPasswordwithOtp, formData)
-      setModal(false)
+      
       console.log(responce, 'responce')
       if (!responce.data.active) {
         toast.error('user is not active please contact admin')
@@ -45,6 +45,7 @@ const ResetpasswordwithOtp = (props) => {
         toast.success('Password changed')
         setTimeout(() => {
           dispatch(login(responce.data))
+          setModal(false)
           if (responce.data.role == 'admin') {
             navigate('/Admin')
           }
@@ -66,7 +67,6 @@ const ResetpasswordwithOtp = (props) => {
       if (!error?.responce) {
         console.log('no error message')
       }
-
     }
   };
 

@@ -31,13 +31,11 @@ const SubmitOtp = () => {
         }, 1000);
         
         if(!min && !sec) {
-            setResend(true)  }
+            setResend(true)  } else setResend(false)
         // Clean up the timer when the component unmounts
         return () => clearTimeout(timerId);
       
     }, [sec, min]);
-
-
     const timeout=()=>{
        const b =  setTimeout(() => {
             if(sec) setSec(sec-1)
@@ -48,15 +46,12 @@ const SubmitOtp = () => {
         }, 1000);
         clearInterval(b);
     }
-    
-
     const otp1 = useRef()
     const otp2 = useRef()
     const otp3 = useRef()
     const otp4 = useRef()
     const [otp,setOtp]  = useState(['','','',''])  
     const [modal,setModal] = useState(false)
-
     const handleOtp =()=>{
         setOtp([
             otp[0]=otp1.current.value,
@@ -66,32 +61,27 @@ const SubmitOtp = () => {
         ])
         console.log(otp,'otp after update',otp.join(''))
     }
-     
-
     const resendOtp =async ()=>{
         try {
-            
-          if( emailRef?.current?.value){
+          if( activeUser.email){
+            console.log('hello') 
             setModal(true)
             const otp =await axiosApi.post(userApi.forgotPassword,{email:activeUser.email,name:activeUser.firstName})
             setModal(false) 
+            console.log(otp.data,'resend')
             if(otp?.data?.success)  
                {
-                formData.resetPaaword =false;
-               dispatch(login(formData))
+              setSec(10)  
+              console.log('text reached here ')
                navigate('/submitOtp')}
             else toast.error(otp?.data?.message)
           }
           else{
-             
             toast.error('submit a valid email')
           }
-           
         } catch (error) {
           
         }
-  
-       
       }
 
     const valdateOtp = async ()=>{

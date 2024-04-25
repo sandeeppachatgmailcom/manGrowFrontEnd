@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import ProfileImageBox from "./ProfileImage"
 
 const Profile = ()=>{
     const darkTheme = useSelector((state=>state.theme))
@@ -11,6 +12,9 @@ const Profile = ()=>{
 
     return(
         <div className={`${darkTheme.theme}   p-2 m-1 rounded shadow-md `}>
+           <div className="flex border-white border-spacing-5 p-1  ">
+           <ProfileImageBox height='200px' changebutton={false} width='200px' imageLink={user.profileImage} onParentChange={(e)=>handleChange(e)} />
+           </div>
             <>
                 <h4>{user.name }</h4>
                 <h5>{user.email}</h5>
