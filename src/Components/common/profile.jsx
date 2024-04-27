@@ -16,6 +16,9 @@ const Profile = ()=>{
            <ProfileImageBox height='200px' changebutton={false} width='200px' imageLink={user.profileImage} onParentChange={(e)=>handleChange(e)} />
            </div>
             <>
+            <h4>{user.name }</h4>
+            <h4>{user.name }</h4>
+            
                 <h4>{user.name }</h4>
                 <h5>{user.email}</h5>
                 <h5>{user.mob}</h5>
