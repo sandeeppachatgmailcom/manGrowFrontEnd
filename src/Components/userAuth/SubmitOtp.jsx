@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux"
 import { IoCloseCircle } from "react-icons/io5";
-import { login, logout } from "../Store/activeUser";
+import { login, logout } from "../../Store/activeUser";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import axiosApi from "../api/axios";
-import { userApi } from "../api/api";
+import axiosApi from "../../Api/axios";
+import { userApi } from "../../Api/api";
 import { ToastContainer, toast } from "react-toastify";
 import { act } from "react-dom/test-utils";
-import Modal from "../Pages/loadingModal";
+import Modal from "../../Pages/loadingModal";
 const SubmitOtp = () => {
     const darkTheme = useSelector((state) => state.theme)
     const activeUser = useSelector((state) => state.activeUser.user)

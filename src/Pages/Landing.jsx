@@ -1,4 +1,4 @@
-import Login from "../Components/LoginWindow" 
+import Login from "../Components/userAuth/LoginWindow" 
 const Landing = ()=>{
     return(
         <>

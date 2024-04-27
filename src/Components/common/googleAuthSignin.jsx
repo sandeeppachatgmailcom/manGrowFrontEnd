@@ -2,10 +2,10 @@
 import React from 'react'; import { FcGoogle } from "react-icons/fc";
 import { jwtDecode } from "jwt-decode";
 import { GoogleLogin } from '@react-oauth/google';
-import axiosApi from '../api/axios';
-import { userApi } from '../api/api';
+import axiosApi from '../../Api/axios';
+import { userApi } from '../../Api/api';
 import { useDispatch } from 'react-redux';
-import { login } from '../Store/activeUser';
+import { login } from '../../Store/activeUser';
 const GAuthsignin = () => {
     const dispatch = useDispatch() 
     const handleSubmit = async(e,formData) => {

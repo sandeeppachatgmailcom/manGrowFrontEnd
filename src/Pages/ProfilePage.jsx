@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from "react"
 import { FaCamera } from "react-icons/fa6"
 import { useDispatch, useSelector } from "react-redux"
-import ProfileImageBox from "../Components/ProfileImage"
+import ProfileImageBox from "../Components/common/ProfileImage"
 import { useForm } from "react-hook-form"
 import { login, saveUser } from "../Store/activeUser"
-import Academics from "../Components/Academics"
-import JobTile from "../Components/JobTile"
+import Academics from "../Components/profile/Academics"
+import JobTile from "../Components/profile/JobTile"
 import { useNavigate } from "react-router-dom"
-import MenuBar from "../Components/MenuBar"
+import MenuBar from "../Components/common/MenuBar"
 import axios from "axios"
-import { publicApi, userApi } from "../api/api"
-import axiosApi from "../api/axios"
+ 
+import axiosApi from "../Api/axios"
+import { publicApi, userApi } from "../Api/api"
 
 
 const ProfilePage = () => {

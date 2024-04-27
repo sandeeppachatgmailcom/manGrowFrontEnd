@@ -3,8 +3,8 @@ import SignupPage from "./SignupPage"
 import { useSelector } from "react-redux";
 import { BsEyeFill } from "react-icons/bs";
 import { BiSolidHide } from "react-icons/bi";
-import { userApi } from "../api/api";
-import axiosApi from "../api/axios";
+import { userApi } from "../../Api/api";
+import axiosApi from "../../Api/axios";
 
 const ReserwithOldPassword = (props) => {
     const [formData, setFormData] = useState({email:props.user.email})

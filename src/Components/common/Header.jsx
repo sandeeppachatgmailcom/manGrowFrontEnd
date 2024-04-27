@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleTheme } from '../Store/themeSlice';
+import { toggleTheme } from '../../Store/themeSlice';
 import { FaPowerOff } from "react-icons/fa6";
-import { logout } from '../Store/activeUser';
+import { logout } from '../../Store/activeUser';
 import { FaCamera } from "react-icons/fa6";
 import { Link, useNavigate } from 'react-router-dom';
 import ProfileImageBox from './ProfileImage';

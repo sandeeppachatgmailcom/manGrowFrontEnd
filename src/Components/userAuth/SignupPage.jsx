@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import GAuth from './GoogleAuthetication';
+import GAuth from '../common/GoogleAuthetication';
 import { BsEyeFill } from "react-icons/bs";
 import { BiSolidHide } from "react-icons/bi";
-import axiosApi from '../api/axios';
-import { userApi } from '../api/api';
+import axiosApi from '../../Api/axios';
+import { userApi } from '../../Api/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

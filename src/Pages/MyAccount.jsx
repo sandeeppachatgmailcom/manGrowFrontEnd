@@ -1,7 +1,7 @@
 import { useRef } from "react"
 import { FaCamera } from "react-icons/fa6"
 import { useSelector } from "react-redux"
-import ProfileImageBox from "../Components/ProfileImage"
+import ProfileImageBox from "../Components/common/ProfileImage"
 
 const MyAccount = () => {
     const theme = useSelector((state) => state.theme.theme)

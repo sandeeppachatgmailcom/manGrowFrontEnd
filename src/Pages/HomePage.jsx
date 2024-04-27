@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import Profile from "../Components/profile"
+import Profile from "../Components/common/profile"
 import Calendar from 'react-calendar'
 //import 'react-calendar/dist/Calendar.css';
-import Typing from "../Components/TaskTyping";
-import AudioTask from "../Components/AudioTask";
-import ChatBox from "../Components/ChatBox"; 
-import SingleChat from "../Components/SinlgleChat";
+import Typing from "../Components/common/TaskTyping";
+import AudioTask from "../Components/common/AudioTask";
+import ChatBox from "../Components/common/ChatBox"; 
+import SingleChat from "../Components/common/SinlgleChat";
 
 const HomePage = () => {
     const darkTheme = useSelector((state) => state.theme) 

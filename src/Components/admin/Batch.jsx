@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import DropdownMenu from "./DropDownList"
+import DropdownMenu from "../toolBox/DropDownList"
 import { MdOutlineRadioButtonChecked } from "react-icons/md";
 import { useEffect, useState } from "react";
 const Batch = (props) => {

@@ -2,11 +2,11 @@
 import React, { useEffect } from 'react'; import { FcGoogle } from "react-icons/fc";
 import { jwtDecode } from "jwt-decode";
 import { GoogleLogin } from '@react-oauth/google';
-import axiosApi from '../api/axios';
-import { userApi } from '../api/api';
+import axiosApi from '../../Api/axios';
+import { userApi } from '../../Api/api';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import { login } from '../Store/activeUser';
+import { login } from '../../Store/activeUser';
 import { useNavigate } from 'react-router-dom';
 const GAuth = () => {
     const dispatch = useDispatch() 

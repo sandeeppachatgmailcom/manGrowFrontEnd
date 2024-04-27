@@ -1,9 +1,9 @@
 import { useState } from "react"
-import ResetpasswordwithOtp from "../Components/ResetpasswordwithOtp"
-import SubmitOtp from "../Components/SubmitOtp"
+import ResetpasswordwithOtp from "../Components/userAuth/ResetpasswordwithOtp"
+import SubmitOtp from "../Components/userAuth/SubmitOtp"
 import { useSpring, animated } from '@react-spring/web'
 import { useSelector } from "react-redux"
-import ReserwithOldPassword from "../Components/ResetWithOldPasssword"
+import ReserwithOldPassword from "../Components/userAuth/ResetWithOldPasssword"
 import { ToastContainer, toast } from "react-toastify"
 
 const ResetCredential = (props)=>{

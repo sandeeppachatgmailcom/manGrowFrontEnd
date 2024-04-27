@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import Profile from "../Components/profile"
+import Profile from "../Components/common/profile"
 import Calendar from 'react-calendar'
 //import 'react-calendar/dist/Calendar.css';
-import Typing from "../Components/TaskTyping";
-import AudioTask from "../Components/AudioTask";
-import ChatBox from "../Components/ChatBox"; 
-import SingleChat from "../Components/SinlgleChat";
-import AdminSubmenu from "../Components/AdminMenuBar";
-import AdminContent from "../Components/AdminContent";
-import ApproveStaff from "../Components/StaffApproval";
+import Typing from "../Components/common/TaskTyping";
+import AudioTask from "../Components/common/AudioTask";
+import ChatBox from "../Components/common/ChatBox"; 
+import SingleChat from "../Components/common/SinlgleChat";
+import AdminSubmenu from "../Components/admin/AdminMenuBar";
+import AdminContent from "../Components/admin/AdminContent";
+import ApproveStaff from "../Components/admin/StaffApproval";
 
 const AdminHomePage = () => {
     const darkTheme = useSelector((state) => state.theme) 

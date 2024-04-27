@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import axiosApi from "../api/axios"
-import { adminApis } from "../api/api"
+import axiosApi from "../../Api/axios"
+import { adminApis } from "../../Api/api"
 import AdminStaffApproval from "./AdminStaffApproval"
 
 const ApproveStaff = ()=>{

@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../Store/activeUser";
+import { login } from "../../Store/activeUser";
 import { Link, useNavigate } from "react-router-dom";
-import GAuthsignin from "./googleAuthSignin";
+import GAuthsignin from "../common/googleAuthSignin";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { userApi } from "../api/api";
-import axiosApi from "../api/axios"; 
-import Modal from "../Pages/loadingModal";
+import { userApi } from "../../Api/api";
+import axiosApi from "../../Api/axios"; 
+import Modal from "../../Pages/loadingModal";
 
  
 function Login() {

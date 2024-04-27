@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { FaWindowClose } from "react-icons/fa";
 import { useRef, useState } from "react";
 import { FaSave } from "react-icons/fa";
-import { login, saveUser } from "../Store/activeUser";
-import axiosApi from "../api/axios";
-import { userApi } from "../api/api";
+import { login, saveUser } from "../../Store/activeUser";
+import axiosApi from "../../Api/axios";
+import { userApi } from "../../Api/api";
 import { useNavigate } from "react-router-dom";
 const EditAcademicModal = (props) => {
     const { arrayindex,onClose, course } = props

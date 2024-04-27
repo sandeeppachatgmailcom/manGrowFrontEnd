@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import DropdownMenu from './DropDownList'
+import DropdownMenu from '../toolBox/DropDownList'
 import Batch from './Batch'
 const AdminContent = () => {
     const darkTheme = useSelector((state) => state.theme.theme)

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMenu } from '../Store/adminMenu';
+import { setMenu } from '../../Store/adminMenu';
 const AdminSubmenu = ()=>{
     const [button, setButton] = useState(0)
     const darkTheme = useSelector((state)=>state.theme.theme )

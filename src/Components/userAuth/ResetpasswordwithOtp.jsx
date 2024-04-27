@@ -3,12 +3,12 @@ import SignupPage from "./SignupPage"
 import { useDispatch, useSelector } from "react-redux";
 import { BsEyeFill } from "react-icons/bs";
 import { BiSolidHide } from "react-icons/bi";
-import { userApi } from "../api/api";
-import axiosApi from "../api/axios";
+import { userApi } from "../../Api/api";
+import axiosApi from "../../Api/axios";
 import { toast } from "react-toastify";
-import { login } from "../Store/activeUser";
+import { login } from "../../Store/activeUser";
 import { useNavigate } from "react-router-dom";
-import Modal from "../Pages/loadingModal";
+import Modal from "../../Pages/loadingModal";
 
 const ResetpasswordwithOtp = (props) => {
   console.log(props)

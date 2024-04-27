@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import ButtonSwitch from "./toolBox/radioButton"
+import ButtonSwitch from "../toolBox/radioButton"
 import { MdVerified } from "react-icons/md";
-import axiosApi from "../api/axios";
-import { adminApis } from "../api/api";
+import axiosApi from "../../Api/axios";
+import { adminApis } from "../../Api/api";
 const AdminStaffApproval = (props) => {
     const [formData, setFormData] = useState({})
     const [isChecked, setIsChecked] = useState()

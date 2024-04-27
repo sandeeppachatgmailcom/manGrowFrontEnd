@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Landing from './Pages/Landing';
 import { Outlet, useNavigate } from 'react-router-dom';
-import Header from './Components/Header';
+import Header from './Components/common/Header';
 import { Provider, useSelector } from 'react-redux';
 import appStore from './Store/appStore';
-import SignupPage from './Components/SignupPage';
+import SignupPage from './Components/userAuth/SignupPage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 const App = () => {
   const navigate = useNavigate()
