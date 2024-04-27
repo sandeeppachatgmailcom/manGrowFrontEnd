@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react'; import { FcGoogle } from "react-icons/fc";
+import React, { useEffect, useState } from 'react'; import { FcGoogle } from "react-icons/fc";
 import { jwtDecode } from "jwt-decode";
 import { GoogleLogin } from '@react-oauth/google';
 import axiosApi from '../../Api/axios';
@@ -8,16 +8,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import { login } from '../../Store/activeUser';
 import { useNavigate } from 'react-router-dom';
+import Modal from '../Pages/loadingModal';
 const GAuth = () => {
     const dispatch = useDispatch() 
     const navigate = useNavigate()
+    const [modal,setModal] = useState(false)
     const activeUser = useSelector((state)=> state.activeUser.user)
     const handleSubmit = async(e,formData) => {
-        // e.preventDefault();
+         e.preventDefault();
         console.log(formData);
+        setModal(true)
         const result = await axiosApi.post(userApi.signUp,formData)
         .then(response => {
           console.log('Response:', response.data);
+          setModal(false)
             if(response.data.success){
                 const user = {
                     humanid: response.data.humanid,
@@ -47,6 +51,7 @@ const GAuth = () => {
       
     return (
         <div className='flex items-center justify-center text-center rounded-xl p-5'>
+            {modal?<Modal/>:''}
             <GoogleLogin  
                 onSuccess={credentialResponse => {
                     console.log(credentialResponse);

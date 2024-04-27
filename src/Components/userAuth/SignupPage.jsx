@@ -8,6 +8,7 @@ import axiosApi from '../../Api/axios';
 import { userApi } from '../../Api/api';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Modal from '../Pages/loadingModal';
 
 
 
@@ -21,6 +22,7 @@ const SignupPage = () => {
   const ref = useRef()
   const imagePath = '../src/images/sugc.png'
   const navigate = useNavigate()
+  const [modal,setModal] = useState(false)
   useEffect(()=>{console.log(darkTheme.theme,'test')},[darkTheme])
   const [formData, setFormData] = useState({
     name:'',
@@ -73,13 +75,17 @@ const validatePassword = (password) => {
   const handleSubmit = async(e) => {
     
     e.preventDefault();
-    console.log(formData);
+    if(formData.email.trim().length)
+    {
+      setModal(true)
     const result = await axiosApi.post(userApi.signUp,formData)
     .then(response => {
       console.log('Response:', response?.data);
       if(response?.data.success){
         console.log("inside")
-        toast.success(`user ${response.data.name} created ,Validate OTP while Sign in within 30 minute `,   )
+        
+        toast.success(`user ${response.data.firstname} created ,Validate OTP while Sign in within 30 minute `,   )
+        
       }
       else{
         toast.error(`user  alredy exist `)
@@ -88,12 +94,17 @@ const validatePassword = (password) => {
     .catch(error => {
       console.error('Error:', error);
     });
+    }
+    else {
+      toast.error('name is not valid ')
+    }
     console.log(result,'responce')
   }
   
 
   return (
     <div className= {` ${darkTheme.theme}  xl:flex lg:flex md:block sm:block  justify-center xl:w-full items-center m-3 h-[100%] `}>
+        {modal?<Modal/>:''}
        <div className="xl:flex justify-center sm:w-full sm:block  md:w-full  h-[300px] "> 
             <div style={{backgroundImage:`url('${imagePath}')`,backgroundPosition:'center' , backgroundSize:'contain',backgroundRepeat:'no-repeat' }} className={`  ${darkTheme.theme  } xl:w-full  m-2 h-[100%]  `}>
 
@@ -104,12 +115,12 @@ const validatePassword = (password) => {
         <div>
           <h2 className={` ${darkTheme.inputtext} mt-6 text-center text-3xl  `}>Sign up</h2>
         </div>
-        <ToastContainer  closeButton= {false} position='top-left'onClose={()=>navigate('/signin')}  />
+        <ToastContainer  closeButton= {false} position='top-left'onClose={()=>{setModal(false);navigate('/signin')}}  />
         
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="name" className={` ${darkTheme.inputtext} text-sm `}>Name</label>
-              <input  id="name" name="name" type="text" required value={formData.name} onChange={handleChange} autoComplete="name" className={`${darkTheme.inputtext} appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`} placeholder="Name" />
+              <input  id="name" required name="name" type="text"  value={formData.name} onChange={handleChange} autoComplete="name" className={`${darkTheme.inputtext} appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`} placeholder="Name" />
             </div>
             <div>
               <label htmlFor="email" className= 'text-sm'  >Email address</label>
