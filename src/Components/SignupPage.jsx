@@ -78,13 +78,14 @@ const validatePassword = (password) => {
     if(formData.email.trim().length)
     {
       setModal(true)
+      console.log(formData,'create user formData')
     const result = await axiosApi.post(userApi.signUp,formData)
     .then(response => {
       console.log('Response:', response?.data);
       if(response?.data.success){
         console.log("inside")
         
-        toast.success(`user ${response.data.firstname} created ,Validate OTP while Sign in within 30 minute `,   )
+        toast.success(`user ${formData.firstName} created ,Validate OTP  within 3 minute `,   )
         
       }
       else{
@@ -103,7 +104,7 @@ const validatePassword = (password) => {
   
 
   return (
-    <div className= {` ${darkTheme.theme}  xl:flex lg:flex md:block sm:block  justify-center xl:w-full items-center m-3 h-[100%] `}>
+    <div className= {` ${darkTheme.theme}  xl:flex lg:flex md:flex  sm:block   xl:justify-center xl:w-full items-center m-3 h-[100%] `}>
         {modal?<Modal/>:''}
        <div className="xl:flex justify-center sm:w-full sm:block  md:w-full  h-[300px] "> 
             <div style={{backgroundImage:`url('${imagePath}')`,backgroundPosition:'center' , backgroundSize:'contain',backgroundRepeat:'no-repeat' }} className={`  ${darkTheme.theme  } xl:w-full  m-2 h-[100%]  `}>
@@ -111,7 +112,7 @@ const validatePassword = (password) => {
             </div>
 
        </div>
-      <div className={` ${darkTheme.theme } max-w-md w-full space-y-8 border p-5 rounded-xl`}>
+      <div className={` ${darkTheme.theme } max-w-md w-full   space-y-8 border p-5 rounded-xl`}>
         <div>
           <h2 className={` ${darkTheme.inputtext} mt-6 text-center text-3xl  `}>Sign up</h2>
         </div>
@@ -120,7 +121,7 @@ const validatePassword = (password) => {
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="name" className={` ${darkTheme.inputtext} text-sm `}>Name</label>
-              <input  id="name" required name="name" type="text"  value={formData.name} onChange={handleChange} autoComplete="name" className={`${darkTheme.inputtext} appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`} placeholder="Name" />
+              <input  id="firstName" required name="firstName" type="text"  value={formData.firstName} onChange={handleChange} autoComplete="name" className={`${darkTheme.inputtext} appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`} placeholder="Name" />
             </div>
             <div>
               <label htmlFor="email" className= 'text-sm'  >Email address</label>
@@ -153,7 +154,7 @@ const validatePassword = (password) => {
             {formData.password == password && 
              validatePassword(password).status > 0 
              && formData.email.trim().length>0 
-             && formData.name.trim().length >0 
+             && formData.firstName.trim().length >0 
              && formData.email.includes(['@'])  ?<button onClick={(e)=>{handleSubmit(e)}} type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Sign up
             </ button>:<button  disabled className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-300 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

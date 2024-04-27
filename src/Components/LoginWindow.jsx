@@ -45,7 +45,7 @@ function Login() {
         const responce = await axiosApi.post(userApi.login,formData ) 
         console.log(responce ,'responce.data.password,responce,')
       if(!responce.data.active){
-             toast.error('user is not active , please contact admin')
+             toast.error(responce.data.message)
         }
         else{
           if(!responce.data.otpVerified) responce.data.resetPaaword=false;

@@ -31,7 +31,7 @@ const ProfilePage = () => {
         setAddress(address.data[0].PostOffice)
     }
     const getUser = async ()=>{
-        const responce = await axiosApi.get(userApi.getlogin,formData ) 
+        const responce = await axiosApi.get(userApi.getlogin ) 
         console.log( userApi.login,responce,'responce data in profie')
         responce.data.success!==false? dispatch(login(responce.data)):navigate('/signin')
     }
@@ -44,7 +44,7 @@ const ProfilePage = () => {
     console.log(user,'userfrom profile')  
     const handleChange = (e)=>{
         const {name,value} = e.target
-
+        delete formData.password
         setFormData( {
              ...formData,
              [name]:value
@@ -70,9 +70,9 @@ const ProfilePage = () => {
 
 
     useEffect(()=>{
-        
+        console.log(formData,'something happened')
         if(formData?.pincode?.length>5) {
-            console.log('something happened')
+            console.log(formData,'something happened')
             loadAddress()
         }
     },[formData])
@@ -119,7 +119,7 @@ const ProfilePage = () => {
                     
                 <div className="flex flex-col justify-center w-full  ">
                     <ProfileImageBox changebutton={true} height='200px' width='200px' imageLink={formData.profileImage} onParentChange={(e)=>handleChange(e)} />
-                    {!user.active? <h5 className="text-center text-xl text-red-500 font-bold" >your id is waiting for approval ,complete your profile updation now!</h5>:'' }
+                    {user.role=='user'? <h5 className="text-center text-xl text-red-500 font-bold" >your id is waiting for approval ,complete your profile updation now!</h5>:'' }
                     <h5 className="text-center">Info about you and your preferences across Mangrow services</h5>
                 </div>
                  
@@ -134,7 +134,7 @@ const ProfilePage = () => {
                                 <div className="flex text-center border  m-1 rounded-sm h-10 items-center  justify-between p-1">
                                     <label className='w-1/4 text-left ' htmlFor="">Name</label>
 
-                                    <input type="text"  onChange={(e)=>handleChange(e)}
+                                    <input type="text" required onChange={(e)=>handleChange(e)}
                                     className={`${darkTheme.inputtext}  appearance-none   rounded-sm     w-3/4   text-left   border-${border}  focus:border-gray-400 focus:outline-none`} 
                                     value={formData.firstName}
                                      name="firstName" 
@@ -143,7 +143,7 @@ const ProfilePage = () => {
                                 </div>
                                 <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
                                     <label className='w-1/4 text-left' htmlFor="">Last Name</label>
-                                    <input type="text"   onChange={(e)=>handleChange(e)}
+                                    <input required type="text"   onChange={(e)=>handleChange(e)}
                                     className={`${darkTheme.inputtext}  appearance-none    text-left  rounded-sm  w-3/4   border-${border}  focus:border-gray-400 focus:outline-none`} 
                                     value={formData.lastName}
                                      name="lastName" 
@@ -184,7 +184,7 @@ const ProfilePage = () => {
                                
                                 
                                 <div className="flex text-center border m-1 rounded-sm h-10 items-center  justify-between p-1">
-                                    <label className='w-1/4 text-left' htmlFor="">Email</label>
+                                    <label  className='w-1/4 text-left' htmlFor="">Email</label>
                                     <input type="text"  readOnly  onChange={(e)=>handleChange(e)}
                                     className={`${darkTheme.inputtext}   appearance-none    text-left  rounded-sm  w-3/4  border-${border}  focus:border-gray-400 focus:outline-none`} 
                                     value={formData.email}

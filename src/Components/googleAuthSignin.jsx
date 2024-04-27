@@ -12,14 +12,9 @@ const GAuthsignin = () => {
         // e.preventDefault();
         console.log(formData);
         const result = await axiosApi.post(userApi.login,formData)
-        .then(response => {
-          console.log('Response:', response.data);
-          dispatch(login(response.data)) 
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-       
+        console.log('Response:', result.data);
+        dispatch(login(result.data)) 
+        
         console.log(result,'responce')
       }
   

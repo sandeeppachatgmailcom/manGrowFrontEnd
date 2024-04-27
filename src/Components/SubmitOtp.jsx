@@ -15,7 +15,7 @@ const SubmitOtp = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const [min,setMin] = useState(0)
-    const [sec,setSec] = useState(10)
+    const [sec,setSec] = useState(60)
     const [resend,setResend] = useState(false)
 
     useEffect(() => {
@@ -71,7 +71,7 @@ const SubmitOtp = () => {
             console.log(otp.data,'resend')
             if(otp?.data?.success)  
                {
-              setSec(10)  
+              setSec(60)  
               console.log('text reached here ')
                navigate('/submitOtp')}
             else toast.error(otp?.data?.message)
@@ -94,11 +94,12 @@ const SubmitOtp = () => {
        const result = await  axiosApi.post(userApi.validateOtp,userData)
        setModal(false)
        if(result.data.otpVerified && result.data.resetPaaword ){
+            console.log(result.data,'otp verified data')
             dispatch(login(result.data.email))
             navigate('/submitOtptoresetPassword')
        }
        else if(result.data.otpVerified && !result.data.resetPaaword ){
-         dispatch(login(result.data.email))
+         dispatch(login(result.data))
          gotoHome(result.data.role)
        }
        else{

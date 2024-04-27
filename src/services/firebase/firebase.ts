@@ -3,7 +3,6 @@ import {firebaseDB} from "./config"
 import {v4 } from "uuid"
 
 
-
 const UploadImage = async (image)=>{
     const imgRef = ref(firebaseDB,`/User/profilepick/${v4()+image.name}`)
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Profile from "../Components/profile"
 import Calendar from 'react-calendar'
 //import 'react-calendar/dist/Calendar.css';
@@ -7,10 +7,28 @@ import Typing from "../Components/TaskTyping";
 import AudioTask from "../Components/AudioTask";
 import ChatBox from "../Components/ChatBox"; 
 import SingleChat from "../Components/SinlgleChat";
+import { userApi } from "../api/api";
+import axiosApi from "../api/axios";
+import { login } from "../Store/activeUser";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
     const darkTheme = useSelector((state) => state.theme) 
     const [value, onChange] = useState(new Date());
+    const user = useSelector((state) => state.activeUser.user)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    
+    const getUser = async ()=>{
+        const responce = await axiosApi.get(userApi.getlogin ) 
+        console.log( userApi.login,responce,'responce data in profie')
+        responce.data.active!==false? dispatch(login(responce.data)):navigate('/signin')
+    }
+    useEffect(()=>{
+        !Object.keys(user).length?getUser():''
+    } ,[])
+
+
     useEffect(() => {
         console.log(darkTheme.theme)
     }, [darkTheme])
